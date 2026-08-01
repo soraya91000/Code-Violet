@@ -1,0 +1,8 @@
+{
+  "name": "Remix TONTINES COFFRES",
+  "description": "Plateforme d\u0027épargne collective premium et sécurisée, gestion de tontines, suivi des paiements, coffre-fort documentaire, et administration avancée.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
