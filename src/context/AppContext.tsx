@@ -178,13 +178,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const declarePayment = (tontineId: string, amount: number, paymentLinkId: string, proofRef?: string) => {
     const tontine = tontines.find(t => t.id === tontineId);
     const link = paymentLinks.find(l => l.id === paymentLinkId);
+    const declaredName = (proofRef && proofRef.trim()) ? proofRef.trim() : `${currentUser.firstName} ${currentUser.lastName}`;
 
     const newPayment: Payment = {
       id: `pay_${Date.now()}`,
       tontineId,
-      tontineName: tontine ? tontine.name : 'Tontine',
+      tontineName: tontine ? tontine.name : (link?.associatedOfferName || 'Tontine'),
       userId: currentUser.id,
-      userName: `${currentUser.firstName} ${currentUser.lastName}`,
+      userName: declaredName,
       userAvatar: currentUser.avatarUrl,
       amount,
       dueDate: new Date().toISOString().split('T')[0],
@@ -192,9 +193,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       status: 'pending_validation',
       paymentMethod: link ? link.platform : 'Lien de paiement',
       paymentLinkId,
-      proofReference: proofRef || `REF-${Math.floor(100000 + Math.random() * 900000)}`,
+      proofReference: declaredName,
       installmentNumber: 8,
-      totalInstallments: 10,
+      totalInstallments: 8,
     };
 
     const nextPayments = [newPayment, ...payments];
@@ -205,12 +206,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       id: `notif_${Date.now()}`,
       userId: adminUserMock.id,
       title: '🟡 Paiement à valider',
-      message: `${currentUser.firstName} ${currentUser.lastName} a déclaré un paiement de ${amount} € pour ${tontine?.name || 'une tontine'}.`,
+      message: `${declaredName} a déclaré un versement de ${amount} € pour ${tontine?.name || link?.associatedOfferName || 'une tontine'}.`,
       type: 'payment',
       isRead: false,
       createdAt: 'À l\'instant',
     };
-    setNotifications(prev => [adminNotif, ...prev]);
+
+    // Add Member Notification
+    const memberNotif: AppNotification = {
+      id: `notif_mem_${Date.now()}`,
+      userId: currentUser.id,
+      title: '✅ Déclaration de paiement reçue',
+      message: `Votre versement de ${amount} € au nom de ${declaredName} a bien été transmis à l'administrateur.`,
+      type: 'payment',
+      isRead: false,
+      createdAt: 'À l\'instant',
+    };
+
+    setNotifications(prev => [adminNotif, memberNotif, ...prev]);
     saveState({ payments: nextPayments });
   };
 

@@ -52,6 +52,7 @@ export const MemberPayments: React.FC<MemberPaymentsProps> = ({ onOpenQR, onPayN
       {/* Grid of Payment Links */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {activeLinks.map((link) => {
+          const is25 = Math.abs(link.amount - 25) < 0.01;
           const is50 = Math.abs(link.amount - 50) < 0.01;
           const is100 = Math.abs(link.amount - 100) < 0.01;
 
@@ -59,7 +60,9 @@ export const MemberPayments: React.FC<MemberPaymentsProps> = ({ onOpenQR, onPayN
             <div
               key={link.id}
               className={`p-5 rounded-3xl transition-all flex flex-col justify-between space-y-4 shadow-md ${
-                is50
+                is25
+                  ? 'bg-[#F3EEFF] text-slate-900 border-2 border-[#8F5DFF]/60'
+                  : is50
                   ? 'bg-[#0F172A] text-white border-2 border-slate-800'
                   : is100
                   ? 'bg-gradient-to-br from-[#FEF08A] via-[#EAB308] to-[#CA8A04] text-slate-950 border-2 border-yellow-400'
@@ -69,7 +72,9 @@ export const MemberPayments: React.FC<MemberPaymentsProps> = ({ onOpenQR, onPayN
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className={`px-2.5 py-1 rounded-full font-black text-[10px] ${
-                    is50
+                    is25
+                      ? 'bg-[#8F5DFF] text-white'
+                      : is50
                       ? 'bg-black text-white border border-slate-700'
                       : is100
                       ? 'bg-slate-950 text-[#F8D64E]'
@@ -78,7 +83,9 @@ export const MemberPayments: React.FC<MemberPaymentsProps> = ({ onOpenQR, onPayN
                     {link.platform}
                   </span>
                   <span className={`font-black text-base ${
-                    is50
+                    is25
+                      ? 'text-[#8F5DFF]'
+                      : is50
                       ? 'text-[#F8D64E]'
                       : is100
                       ? 'text-slate-950'
@@ -87,19 +94,21 @@ export const MemberPayments: React.FC<MemberPaymentsProps> = ({ onOpenQR, onPayN
                     {link.amount.toFixed(2)} €
                   </span>
                 </div>
-                <h3 className={`font-extrabold text-sm ${is50 ? 'text-white' : is100 ? 'text-slate-950' : 'text-gray-900'}`}>
+                <h3 className={`font-extrabold text-sm ${is25 ? 'text-slate-900' : is50 ? 'text-white' : is100 ? 'text-slate-950' : 'text-gray-900'}`}>
                   {link.name}
                 </h3>
-                <p className={`text-xs line-clamp-2 ${is50 ? 'text-slate-300' : is100 ? 'text-slate-900 font-medium' : 'text-gray-500'}`}>
+                <p className={`text-xs line-clamp-2 ${is25 ? 'text-slate-700 font-medium' : is50 ? 'text-slate-300' : is100 ? 'text-slate-900 font-medium' : 'text-gray-500'}`}>
                   {link.paymentInstructions || link.beneficiaryName}
                 </p>
               </div>
 
-              <div className={`space-y-2 pt-2 border-t ${is50 ? 'border-slate-800' : is100 ? 'border-amber-600/30' : 'border-gray-100'}`}>
+              <div className={`space-y-2 pt-2 border-t ${is25 ? 'border-purple-200' : is50 ? 'border-slate-800' : is100 ? 'border-amber-600/30' : 'border-gray-100'}`}>
                 <button
                   onClick={() => onOpenQR(link)}
                   className={`w-full py-2 px-3 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors ${
-                    is50
+                    is25
+                      ? 'bg-white hover:bg-purple-100/80 text-[#8F5DFF] border border-purple-200'
+                      : is50
                       ? 'bg-slate-900 hover:bg-black text-slate-200 border border-slate-700'
                       : is100
                       ? 'bg-yellow-200/80 hover:bg-yellow-300 text-slate-950 border border-yellow-400'
@@ -115,7 +124,9 @@ export const MemberPayments: React.FC<MemberPaymentsProps> = ({ onOpenQR, onPayN
                   rel="noopener noreferrer"
                   onClick={() => onPayNow(link.id, link.amount, link.associatedOfferName || 'Tontine')}
                   className={`w-full py-2.5 px-3 font-extrabold text-xs rounded-xl shadow-xs flex items-center justify-center gap-1.5 transition-transform active:scale-98 ${
-                    is50
+                    is25
+                      ? 'bg-[#8F5DFF] hover:bg-[#7b46ff] text-white'
+                      : is50
                       ? 'bg-[#8F5DFF] hover:bg-[#7b46ff] text-white'
                       : is100
                       ? 'bg-slate-950 hover:bg-slate-900 text-[#F8D64E]'

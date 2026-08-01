@@ -54,6 +54,7 @@ export function App() {
     switchRole,
     currentUser,
     paymentLinks,
+    declarePayment,
   } = useApp();
 
   // Modals state
@@ -271,9 +272,16 @@ export function App() {
       <PaymentReturnConfirmModal
         isOpen={confirmPaymentState.isOpen}
         onClose={() => setConfirmPaymentState(prev => ({ ...prev, isOpen: false }))}
-        paymentLinkId={confirmPaymentState.paymentLinkId}
         amount={confirmPaymentState.amount}
         tontineName={confirmPaymentState.tontineName}
+        onConfirmPayment={(fullName) => {
+          declarePayment(
+            selectedTontineId || 'tnt_serenite_50',
+            confirmPaymentState.amount,
+            confirmPaymentState.paymentLinkId,
+            fullName
+          );
+        }}
       />
     </div>
   );

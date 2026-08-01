@@ -21,7 +21,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
   const getLinksForAmount = (amount: number) => {
     return {
       revolut: paymentLinks.find(p => p.amount === amount && p.platform === 'Revolut')?.url || 'https://revolut.me/shsnhouse',
-      wero: paymentLinks.find(p => p.amount === amount && p.platform === 'Wero')?.url || `https://wero.pay/codeviolet/${amount}eur`,
+      wero: paymentLinks.find(p => p.amount === amount && p.platform === 'Wero')?.url || 'https://share.weropay.eu/p/1/c/HXXidRPfLV',
       paypal: paymentLinks.find(p => p.amount === amount && p.platform === 'PayPal')?.url || `https://paypal.me/codeviolet/${amount}EUR`,
       stripe: paymentLinks.find(p => p.amount === amount && p.platform === 'Stripe')?.url || `https://buy.stripe.com/codeviolet${amount}eur`
     };
@@ -157,8 +157,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
             
-            {/* 1. TONTINE EXPRESS 25€ (Bloc Violet) */}
-            <div className="rounded-3xl p-8 bg-[#FAF5FF] border-2 border-[#8F5DFF] shadow-lg flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-all">
+            {/* 1. TONTINE EXPRESS 25€ (Bloc Violet Clair) */}
+            <div className="rounded-3xl p-8 bg-[#F3EEFF] border-2 border-[#8F5DFF] shadow-lg flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-all">
               <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#8F5DFF]/15 rounded-full blur-2xl pointer-events-none" />
               
               <div>
