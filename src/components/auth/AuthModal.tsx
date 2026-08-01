@@ -25,6 +25,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
   const [acceptReglement, setAcceptReglement] = useState(false);
   const [twoFaCode, setTwoFaCode] = useState('');
 
+  const [twoFaError, setTwoFaError] = useState(false);
+
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -49,8 +51,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
       });
       setMode('success');
     } else if (mode === '2fa') {
-      switchRole('admin');
-      onClose();
+      if (twoFaCode.trim() === '2020') {
+        setTwoFaError(false);
+        switchRole('admin');
+        onClose();
+      } else {
+        setTwoFaError(true);
+      }
     } else if (mode === 'forgot') {
       alert(`Un lien de réinitialisation a été envoyé à l'adresse : ${email}`);
       setMode('login');
@@ -207,17 +214,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
               {mode === '2fa' && (
                 <div className="bg-[#FAF8FF] p-4 rounded-2xl border border-purple-200 text-center space-y-3">
                   <KeyRound className="w-8 h-8 mx-auto text-[#8F5DFF]" />
-                  <label className="block text-xs font-bold text-gray-700">Code de validation Authenticator / SMS</label>
+                  <label className="block text-xs font-bold text-gray-700">Code d'accès Administrateur</label>
                   <input
-                    type="text"
-                    maxLength={6}
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
                     required
-                    placeholder="1 2 3 4 5 6"
+                    placeholder="2 0 2 0"
                     value={twoFaCode}
-                    onChange={(e) => setTwoFaCode(e.target.value)}
-                    className="w-full text-center text-xl font-mono tracking-widest py-2 bg-white rounded-xl border-2 border-[#8F5DFF] outline-hidden"
+                    onChange={(e) => {
+                      setTwoFaCode(e.target.value);
+                      if (twoFaError) setTwoFaError(false);
+                    }}
+                    className={`w-full text-center text-xl font-black tracking-widest py-2 bg-white rounded-xl border-2 outline-hidden ${
+                      twoFaError ? 'border-rose-500 bg-rose-50 text-rose-600' : 'border-[#8F5DFF] text-gray-900'
+                    }`}
                   />
-                  <p className="text-[10px] text-gray-500">Protection renforcée Administrateur active.</p>
+                  {twoFaError ? (
+                    <p className="text-xs font-bold text-rose-600">Code d'accès incorrect ! (Code : 2020)</p>
+                  ) : (
+                    <p className="text-[10px] text-gray-500">Saisissez le code PIN à 4 chiffres (2020).</p>
+                  )}
                 </div>
               )}
 

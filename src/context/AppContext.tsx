@@ -33,9 +33,12 @@ interface AppContextType {
   activeAdminTab: string;
   selectedTontineId: string | null;
   unreadNotificationsCount: number;
+  isAdminPinModalOpen: boolean;
 
   // Actions
   switchRole: (role: 'member' | 'admin' | 'public') => void;
+  closeAdminPinModal: () => void;
+  confirmAdminPinAccess: () => void;
   setActiveMemberTab: (tab: string) => void;
   setActiveAdminTab: (tab: string) => void;
   setSelectedTontineId: (id: string | null) => void;
@@ -114,6 +117,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeAdminTab, setActiveAdminTab] = useState<string>('dashboard');
   const [selectedTontineId, setSelectedTontineId] = useState<string | null>('tnt_serenite_50');
 
+  // Admin PIN Protection State
+  const [isAdminPinModalOpen, setIsAdminPinModalOpen] = useState<boolean>(false);
+  const [isAdminPinVerified, setIsAdminPinVerified] = useState<boolean>(false);
+
   // Monitor network online/offline status for Offline Mode
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -165,13 +172,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const switchRole = (role: 'member' | 'admin' | 'public') => {
+    if (role === 'admin' && !isAdminPinVerified) {
+      setIsAdminPinModalOpen(true);
+      return;
+    }
     setActiveRole(role);
     if (role === 'admin') {
       setCurrentUser(adminUserMock);
     } else if (role === 'member') {
+      setIsAdminPinVerified(false);
       const soraya = users.find(u => u.id === 'usr_soraya') || currentUserMock;
       setCurrentUser(soraya);
+    } else if (role === 'public') {
+      setIsAdminPinVerified(false);
     }
+  };
+
+  const closeAdminPinModal = () => {
+    setIsAdminPinModalOpen(false);
+  };
+
+  const confirmAdminPinAccess = () => {
+    setIsAdminPinVerified(true);
+    setIsAdminPinModalOpen(false);
+    setActiveRole('admin');
+    setCurrentUser(adminUserMock);
   };
 
   // Payment Flow Actions
@@ -674,8 +699,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       activeAdminTab,
       selectedTontineId,
       unreadNotificationsCount,
+      isAdminPinModalOpen,
 
       switchRole,
+      closeAdminPinModal,
+      confirmAdminPinAccess,
       setActiveMemberTab,
       setActiveAdminTab,
       setSelectedTontineId,

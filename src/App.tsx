@@ -11,6 +11,8 @@ import { NotificationDropdown } from './components/common/NotificationDropdown';
 import { GlobalSearchModal } from './components/common/GlobalSearchModal';
 import { QRModal } from './components/common/QRModal';
 import { PaymentReturnConfirmModal } from './components/common/PaymentReturnConfirmModal';
+import { AdminPinModal } from './components/common/AdminPinModal';
+import { SiteAccessGate } from './components/common/SiteAccessGate';
 
 // Public Landing
 import { LandingPage } from './components/public/LandingPage';
@@ -55,6 +57,9 @@ export function App() {
     currentUser,
     paymentLinks,
     declarePayment,
+    isAdminPinModalOpen,
+    closeAdminPinModal,
+    confirmAdminPinAccess,
   } = useApp();
 
   // Modals state
@@ -100,25 +105,28 @@ export function App() {
   // 1. PUBLIC LANDING VIEW
   if (currentRole === 'public') {
     return (
-      <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-[#F3EEFF] selection:text-[#8F5DFF]">
-        <OfflineBanner />
-        <LandingPage
-          onLogin={() => handleOpenAuth('login')}
-          onSignup={() => handleOpenAuth('signup')}
-        />
+      <SiteAccessGate>
+        <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-[#F3EEFF] selection:text-[#8F5DFF]">
+          <OfflineBanner />
+          <LandingPage
+            onLogin={() => handleOpenAuth('login')}
+            onSignup={() => handleOpenAuth('signup')}
+          />
 
-        <AuthModal
-          isOpen={isAuthOpen}
-          onClose={() => setIsAuthOpen(false)}
-          initialMode={authMode}
-        />
-      </div>
+          <AuthModal
+            isOpen={isAuthOpen}
+            onClose={() => setIsAuthOpen(false)}
+            initialMode={authMode}
+          />
+        </div>
+      </SiteAccessGate>
     );
   }
 
   // 2. MEMBER / ADMIN AUTHENTICATED WRAPPER
   return (
-    <div className="min-h-screen bg-[#FCFCFD] text-slate-900 font-sans flex flex-col md:flex-row pb-24 md:pb-0 selection:bg-[#F3EEFF] selection:text-[#8F5DFF]">
+    <SiteAccessGate>
+      <div className="min-h-screen bg-[#FCFCFD] text-slate-900 font-sans flex flex-col md:flex-row pb-24 md:pb-0 selection:bg-[#F3EEFF] selection:text-[#8F5DFF]">
       <OfflineBanner />
 
       {/* Desktop Sidebar depending on role */}
@@ -283,7 +291,14 @@ export function App() {
           );
         }}
       />
+
+      <AdminPinModal
+        isOpen={isAdminPinModalOpen}
+        onClose={closeAdminPinModal}
+        onSuccess={confirmAdminPinAccess}
+      />
     </div>
+    </SiteAccessGate>
   );
 }
 
