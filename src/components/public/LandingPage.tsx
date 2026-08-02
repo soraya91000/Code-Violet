@@ -11,21 +11,12 @@ import { motion } from 'motion/react';
 interface LandingPageProps {
   onJoinClick: () => void;
   onLoginClick: () => void;
-  onCodeAccessClick?: () => void;
 }
 
-export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginClick, onCodeAccessClick }) => {
-  const { paymentLinks, switchRole, testimonials } = useApp();
+export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginClick }) => {
+  const { paymentLinks, switchRole, testimonials, openSiteGate } = useApp();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [selectedPaymentModal, setSelectedPaymentModal] = useState<{ formulaName: string; amount: number; category: string } | null>(null);
-
-  const handleCodeAccess = () => {
-    if (onCodeAccessClick) {
-      onCodeAccessClick();
-    } else {
-      onLoginClick();
-    }
-  };
 
   const getLinksForAmount = (amount: number) => {
     return {
@@ -73,15 +64,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
 
           <div className="flex items-center gap-3">
             <button
-              onClick={handleCodeAccess}
-              className="px-4 py-2.5 text-xs sm:text-sm font-extrabold text-[#8F5DFF] hover:bg-[#F3EEFF] border border-[#8F5DFF]/30 rounded-2xl transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+              onClick={openSiteGate}
+              className="px-4 py-2.5 text-xs sm:text-sm font-bold text-[#8F5DFF] hover:bg-[#F3EEFF] rounded-2xl transition-colors"
             >
-              <Lock className="w-3.5 h-3.5 text-[#8F5DFF]" />
-              <span>Code d'accès violet</span>
+              Accès Code Violet
             </button>
             <button
-              onClick={onJoinClick}
-              className="px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-[#8F5DFF] hover:bg-[#7b46ff] rounded-2xl shadow-lg shadow-[#8F5DFF]/25 transition-transform active:scale-98 flex items-center gap-2 cursor-pointer"
+              onClick={openSiteGate}
+              className="px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-[#8F5DFF] hover:bg-[#7b46ff] rounded-2xl shadow-lg shadow-[#8F5DFF]/25 transition-transform active:scale-98 flex items-center gap-2"
             >
               <span>Rejoindre</span>
               <Crown className="w-4 h-4 text-[#F8D64E]" />
@@ -113,11 +103,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <button
-              onClick={handleCodeAccess}
-              className="w-full sm:w-auto px-8 py-4 bg-[#8F5DFF] hover:bg-[#7b46ff] text-white font-extrabold rounded-2xl shadow-xl shadow-[#8F5DFF]/30 text-base flex items-center justify-center gap-3 transition-transform active:scale-98 cursor-pointer"
+              onClick={openSiteGate}
+              className="w-full sm:w-auto px-8 py-4 bg-[#8F5DFF] hover:bg-[#7b46ff] text-white font-extrabold rounded-2xl shadow-xl shadow-[#8F5DFF]/30 text-base flex items-center justify-center gap-3 transition-transform active:scale-98"
             >
-              <Lock className="w-5 h-5 text-[#F8D64E]" />
-              <span>Code d'accès violet</span>
+              <span>Accès Code Violet</span>
               <ArrowRight className="w-5 h-5 text-[#F8D64E]" />
             </button>
 
@@ -647,9 +636,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
 
           <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400">
             <p>© 2026 Code Violet • Administré par Soraya Ahamada. Tous droits réservés.</p>
-            <p className="flex items-center gap-1 mt-2 sm:mt-0">
+            <button onClick={openSiteGate} className="flex items-center gap-1 mt-2 sm:mt-0 text-slate-400 hover:text-[#8F5DFF] transition-colors">
               <ShieldCheck className="w-4 h-4 text-[#8F5DFF]" /> Espace Code Violet Sécurisé
-            </p>
+            </button>
           </div>
         </div>
       </footer>

@@ -53,8 +53,34 @@ export const AdminPinModal: React.FC<AdminPinModalProps> = ({ isOpen, onClose, o
             <X className="w-5 h-5" />
           </button>
 
-          <div className="w-16 h-16 mx-auto rounded-full bg-[#F3EEFF] border-2 border-[#8F5DFF]/40 flex items-center justify-center text-[#8F5DFF] mb-4 shadow-inner">
-            <Lock className="w-8 h-8 text-[#8F5DFF]" />
+          {/* GOLDEN ROTATING ANIMATION AROUND LOCK ICON */}
+          <div className="relative w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-1 rounded-full p-[2.5px] shadow-[0_0_20px_rgba(248,214,78,0.5)]"
+              style={{
+                background: 'conic-gradient(from 0deg, #F8D64E, #FFF3B0, #D97706, #F8D64E, #FFE885, #F8D64E)'
+              }}
+            />
+
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 rounded-full border border-dashed border-[#F8D64E] opacity-75"
+            />
+
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-2 rounded-full pointer-events-none"
+            >
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-[#FFF5C0] rounded-full shadow-[0_0_10px_#F8D64E] border border-white" />
+            </motion.div>
+
+            <div className="relative w-16 h-16 rounded-full bg-slate-900 border border-[#F8D64E] flex items-center justify-center text-[#F8D64E] shadow-inner z-10">
+              <Lock className="w-7 h-7 text-[#F8D64E] drop-shadow-[0_0_8px_rgba(248,214,78,0.8)]" />
+            </div>
           </div>
 
           <div className="space-y-1 mb-6">

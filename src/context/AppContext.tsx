@@ -34,11 +34,15 @@ interface AppContextType {
   selectedTontineId: string | null;
   unreadNotificationsCount: number;
   isAdminPinModalOpen: boolean;
+  isSiteGateOpen: boolean;
 
   // Actions
   switchRole: (role: 'member' | 'admin' | 'public') => void;
   closeAdminPinModal: () => void;
   confirmAdminPinAccess: () => void;
+  openSiteGate: () => void;
+  closeSiteGate: () => void;
+  confirmSiteGateAccess: () => void;
   setActiveMemberTab: (tab: string) => void;
   setActiveAdminTab: (tab: string) => void;
   setSelectedTontineId: (id: string | null) => void;
@@ -117,9 +121,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeAdminTab, setActiveAdminTab] = useState<string>('dashboard');
   const [selectedTontineId, setSelectedTontineId] = useState<string | null>('tnt_serenite_50');
 
-  // Admin PIN Protection State
+  // Admin PIN & Site Gate Protection State
   const [isAdminPinModalOpen, setIsAdminPinModalOpen] = useState<boolean>(false);
   const [isAdminPinVerified, setIsAdminPinVerified] = useState<boolean>(false);
+  const [isSiteGateOpen, setIsSiteGateOpen] = useState<boolean>(false);
 
   // Monitor network online/offline status for Offline Mode
   useEffect(() => {
@@ -197,6 +202,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsAdminPinModalOpen(false);
     setActiveRole('admin');
     setCurrentUser(adminUserMock);
+  };
+
+  const openSiteGate = () => {
+    setIsSiteGateOpen(true);
+  };
+
+  const closeSiteGate = () => {
+    setIsSiteGateOpen(false);
+  };
+
+  const confirmSiteGateAccess = () => {
+    setIsSiteGateOpen(false);
+    switchRole('member');
   };
 
   // Payment Flow Actions
@@ -700,10 +718,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       selectedTontineId,
       unreadNotificationsCount,
       isAdminPinModalOpen,
+      isSiteGateOpen,
 
       switchRole,
       closeAdminPinModal,
       confirmAdminPinAccess,
+      openSiteGate,
+      closeSiteGate,
+      confirmSiteGateAccess,
       setActiveMemberTab,
       setActiveAdminTab,
       setSelectedTontineId,
