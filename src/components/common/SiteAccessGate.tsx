@@ -17,7 +17,10 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
   onCloseModal,
   onSuccessAccess,
 }) => {
-  const { memberAccessKeys, users, confirmSiteGateAccess } = useApp();
+  const { memberAccessKeys, users, confirmSiteGateAccess, isSiteGateOpen, closeSiteGate } = useApp();
+
+  const activeIsOpenModal = isOpenModal !== undefined ? isOpenModal : isSiteGateOpen;
+  const activeOnCloseModal = onCloseModal || closeSiteGate;
 
   const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
     return localStorage.getItem('code_violet_site_access_granted') === 'true';
@@ -30,13 +33,13 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isOpenModal) {
+    if (activeIsOpenModal) {
       setPassword('');
       setError(false);
       setSuccessMsg(false);
       setAccessModeType(null);
     }
-  }, [isOpenModal]);
+  }, [activeIsOpenModal]);
 
   const handleUnlock = (e: React.FormEvent) => {
     e.preventDefault();
@@ -173,9 +176,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
   );
 
   // Modal Trigger Overlay
-  if (isOpenModal !== undefined) {
-    if (!isOpenModal) return null;
-
+  if (activeIsOpenModal) {
     return (
       <AnimatePresence>
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
@@ -190,9 +191,9 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
             transition={{ duration: 0.35, ease: "easeOut" }}
             className="relative w-full max-w-md bg-slate-900/95 border-2 border-[#F8D64E]/40 rounded-3xl p-6 sm:p-8 shadow-[0_0_50px_rgba(248,214,78,0.2)] backdrop-blur-2xl overflow-hidden text-center"
           >
-            {onCloseModal && (
+            {activeOnCloseModal && (
               <button
-                onClick={onCloseModal}
+                onClick={activeOnCloseModal}
                 className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-full bg-slate-800/60 hover:bg-slate-800 transition-colors z-20"
               >
                 <X className="w-5 h-5" />
