@@ -54,32 +54,28 @@ export const AdminPinModal: React.FC<AdminPinModalProps> = ({ isOpen, onClose, o
           </button>
 
           {/* GOLDEN ROTATING ANIMATION AROUND LOCK ICON */}
-          <div className="relative w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+          <div className="relative w-18 h-18 mx-auto mb-4 flex items-center justify-center">
             <motion.div
               animate={{ rotate: 360 }}
-              transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-1 rounded-full p-[2.5px] shadow-[0_0_20px_rgba(248,214,78,0.5)]"
+              transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-1 rounded-full p-[1px] shadow-[0_0_12px_rgba(248,214,78,0.25)]"
               style={{
-                background: 'conic-gradient(from 0deg, #F8D64E, #FFF3B0, #D97706, #F8D64E, #FFE885, #F8D64E)'
+                background: 'conic-gradient(from 0deg, #F8D64E 0%, rgba(248,214,78,0.2) 35%, #D97706 70%, #F8D64E 100%)'
               }}
-            />
-
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-0 rounded-full border border-dashed border-[#F8D64E] opacity-75"
-            />
-
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-2 rounded-full pointer-events-none"
             >
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-[#FFF5C0] rounded-full shadow-[0_0_10px_#F8D64E] border border-white" />
+              <div className="w-full h-full bg-slate-900 rounded-full" />
             </motion.div>
 
-            <div className="relative w-16 h-16 rounded-full bg-slate-900 border border-[#F8D64E] flex items-center justify-center text-[#F8D64E] shadow-inner z-10">
-              <Lock className="w-7 h-7 text-[#F8D64E] drop-shadow-[0_0_8px_rgba(248,214,78,0.8)]" />
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-1.5 rounded-full pointer-events-none"
+            >
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-[#FFF3B0] rounded-full shadow-[0_0_6px_#F8D64E]" />
+            </motion.div>
+
+            <div className="relative w-14 h-14 rounded-full bg-slate-900 border border-[#F8D64E]/60 flex items-center justify-center text-[#F8D64E] shadow-md z-10">
+              <Lock className="w-6 h-6 text-[#F8D64E] drop-shadow-[0_0_6px_rgba(248,214,78,0.7)]" />
             </div>
           </div>
 

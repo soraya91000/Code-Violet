@@ -88,47 +88,40 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
     setPassword('');
   };
 
-  // Golden Rotating Ring Graphic Component
+  // Golden Rotating Ring Graphic Component (Fine, elegant, ultra-thin gold ring)
   const GoldenLockGraphic = () => (
-    <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-      {/* 1. Outer Golden Rotating Conic Gradient Ring */}
+    <div className="relative w-20 h-20 mx-auto mb-5 flex items-center justify-center">
+      {/* 1. Ultra-Thin Outer Golden Rotating Gradient Ring (1px ring) */}
       <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-        className="absolute -inset-1.5 rounded-full p-[3px] shadow-[0_0_25px_rgba(248,214,78,0.6)]"
+        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+        className="absolute -inset-1 rounded-full p-[1px] shadow-[0_0_15px_rgba(248,214,78,0.3)]"
         style={{
-          background: 'conic-gradient(from 0deg, #F8D64E, #FFF3B0, #D97706, #F8D64E, #FFE885, #F8D64E)'
+          background: 'conic-gradient(from 0deg, #F8D64E 0%, rgba(248,214,78,0.2) 35%, #D97706 70%, #F8D64E 100%)'
         }}
-      />
-
-      {/* 2. Inner Golden Dashed Ring Rotating in Reverse */}
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-0 rounded-full border-2 border-dashed border-[#F8D64E] opacity-75"
-      />
-
-      {/* 3. Orbiting Gold Particle */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
-        className="absolute -inset-2.5 rounded-full pointer-events-none"
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#FFF5C0] rounded-full shadow-[0_0_15px_#F8D64E] border-2 border-white flex items-center justify-center">
-          <div className="w-1.5 h-1.5 bg-[#B45309] rounded-full" />
-        </div>
+        <div className="w-full h-full bg-slate-950 rounded-full" />
       </motion.div>
 
-      {/* 4. Golden Pulsing Glowing Ambient Background */}
+      {/* 2. Orbiting Delicate Golden Particle */}
       <motion.div
-        animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.35, 0.7, 0.35] }}
-        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-1 rounded-full bg-[#F8D64E]/25 blur-md"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        className="absolute -inset-1.5 rounded-full pointer-events-none"
+      >
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-[#FFF3B0] rounded-full shadow-[0_0_8px_#F8D64E]" />
+      </motion.div>
+
+      {/* 4. Subtle Golden Glow Accent */}
+      <motion.div
+        animate={{ opacity: [0.15, 0.3, 0.15] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-1 rounded-full bg-[#F8D64E]/15 blur-sm"
       />
 
-      {/* 5. Central Dark Badge with Golden Lock Icon */}
-      <div className="relative w-20 h-20 rounded-full bg-slate-950 border-2 border-[#F8D64E] flex items-center justify-center text-[#F8D64E] shadow-2xl z-10">
-        <Lock className="w-9 h-9 text-[#F8D64E] drop-shadow-[0_0_12px_rgba(248,214,78,0.9)]" />
+      {/* 5. Central Dark Badge with Fine Golden Border */}
+      <div className="relative w-16 h-16 rounded-full bg-slate-950/90 border border-[#F8D64E]/60 flex items-center justify-center text-[#F8D64E] shadow-lg z-10">
+        <Lock className="w-7 h-7 text-[#F8D64E] drop-shadow-[0_0_6px_rgba(248,214,78,0.7)]" />
       </div>
     </div>
   );
