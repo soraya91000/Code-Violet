@@ -4,7 +4,7 @@ import { Logo } from '../common/Logo';
 import { 
   ShieldCheck, ArrowRight, CheckCircle2, Crown, Sparkles, 
   ChevronDown, Star, Lock, HeartHandshake, Zap, Award, 
-  CreditCard, Users, BookOpen, ChevronRight, ExternalLink, ShoppingBag 
+  CreditCard, Users, BookOpen, ChevronRight, ExternalLink, ShoppingBag, Send
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -69,13 +69,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
             >
               Accès Code Violet
             </button>
-            <button
-              onClick={openSiteGate}
+            <a
+              href="#formules"
               className="px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-[#8F5DFF] hover:bg-[#7b46ff] rounded-2xl shadow-lg shadow-[#8F5DFF]/25 transition-transform active:scale-98 flex items-center gap-2"
             >
               <span>Rejoindre</span>
               <Crown className="w-4 h-4 text-[#F8D64E]" />
-            </button>
+            </a>
           </div>
         </div>
       </header>
@@ -475,6 +475,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
               </div>
             </div>
 
+          </div>
+
+          {/* Bouton de redirection Telegram sous les 3 blocs de tontines */}
+          <div className="mt-12 text-center flex flex-col items-center justify-center space-y-3">
+            <a
+              href="https://t.me/codeviolet26"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-4 sm:px-10 sm:py-5 bg-gradient-to-r from-[#229ED9] via-[#0088cc] to-[#8F5DFF] hover:from-[#1d8ebf] hover:to-[#7b46ff] text-white font-black text-base sm:text-lg rounded-2xl shadow-xl shadow-sky-500/20 hover:shadow-2xl hover:scale-[1.02] active:scale-98 transition-all flex items-center justify-center gap-3 border border-sky-300/30 group"
+            >
+              <Send className="w-5 h-5 text-white group-hover:translate-x-0.5 transition-transform" />
+              <span>Je rejoins Code Violet</span>
+              <ExternalLink className="w-4 h-4 text-sky-100" />
+            </a>
+            <p className="text-xs text-gray-500 font-medium max-w-md">
+              Rejoignez notre canal officiel Telegram <strong>@codeviolet26</strong> pour réserver votre place dans une tontine et échanger avec Soraya.
+            </p>
           </div>
         </div>
       </section>
