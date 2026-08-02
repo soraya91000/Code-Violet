@@ -12,7 +12,7 @@ import { GlobalSearchModal } from './components/common/GlobalSearchModal';
 import { QRModal } from './components/common/QRModal';
 import { PaymentReturnConfirmModal } from './components/common/PaymentReturnConfirmModal';
 import { AdminPinModal } from './components/common/AdminPinModal';
-import { SiteAccessGate } from './components/common/SiteAccessGate';
+import { SiteAccessModal } from './components/common/SiteAccessModal';
 
 // Public Landing
 import { LandingPage } from './components/public/LandingPage';
@@ -79,7 +79,18 @@ export function App() {
     tontineName: 'Tontine Sérénité 50 €',
   });
 
+  const [isSiteAccessModalOpen, setIsSiteAccessModalOpen] = useState(false);
   const [selectedTontineId, setSelectedTontineId] = useState<string>('tnt_serenite_50');
+
+  // Trigger Site Code Access (coffre2020)
+  const handleTriggerCodeAccess = () => {
+    const isGranted = localStorage.getItem('code_violet_site_access_granted') === 'true';
+    if (isGranted) {
+      handleOpenAuth('login');
+    } else {
+      setIsSiteAccessModalOpen(true);
+    }
+  };
 
   // Trigger Auth
   const handleOpenAuth = (mode: 'login' | 'signup') => {
@@ -105,28 +116,35 @@ export function App() {
   // 1. PUBLIC LANDING VIEW
   if (currentRole === 'public') {
     return (
-      <SiteAccessGate>
-        <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-[#F3EEFF] selection:text-[#8F5DFF]">
-          <OfflineBanner />
-          <LandingPage
-            onLogin={() => handleOpenAuth('login')}
-            onSignup={() => handleOpenAuth('signup')}
-          />
+      <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-[#F3EEFF] selection:text-[#8F5DFF]">
+        <OfflineBanner />
+        <LandingPage
+          onJoinClick={handleTriggerCodeAccess}
+          onLoginClick={handleTriggerCodeAccess}
+          onCodeAccessClick={handleTriggerCodeAccess}
+        />
 
-          <AuthModal
-            isOpen={isAuthOpen}
-            onClose={() => setIsAuthOpen(false)}
-            initialMode={authMode}
-          />
-        </div>
-      </SiteAccessGate>
+        <AuthModal
+          isOpen={isAuthOpen}
+          onClose={() => setIsAuthOpen(false)}
+          initialMode={authMode}
+        />
+
+        <SiteAccessModal
+          isOpen={isSiteAccessModalOpen}
+          onClose={() => setIsSiteAccessModalOpen(false)}
+          onSuccess={() => {
+            setIsSiteAccessModalOpen(false);
+            handleOpenAuth('login');
+          }}
+        />
+      </div>
     );
   }
 
   // 2. MEMBER / ADMIN AUTHENTICATED WRAPPER
   return (
-    <SiteAccessGate>
-      <div className="min-h-screen bg-[#FCFCFD] text-slate-900 font-sans flex flex-col md:flex-row pb-24 md:pb-0 selection:bg-[#F3EEFF] selection:text-[#8F5DFF]">
+    <div className="min-h-screen bg-[#FCFCFD] text-slate-900 font-sans flex flex-col md:flex-row pb-24 md:pb-0 selection:bg-[#F3EEFF] selection:text-[#8F5DFF]">
       <OfflineBanner />
 
       {/* Desktop Sidebar depending on role */}
@@ -297,8 +315,16 @@ export function App() {
         onClose={closeAdminPinModal}
         onSuccess={confirmAdminPinAccess}
       />
+
+      <SiteAccessModal
+        isOpen={isSiteAccessModalOpen}
+        onClose={() => setIsSiteAccessModalOpen(false)}
+        onSuccess={() => {
+          setIsSiteAccessModalOpen(false);
+          handleOpenAuth('login');
+        }}
+      />
     </div>
-    </SiteAccessGate>
   );
 }
 
