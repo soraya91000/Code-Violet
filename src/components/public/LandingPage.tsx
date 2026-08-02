@@ -34,7 +34,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
     },
     {
       q: "Comment sont effectués les versements ?",
-      a: "Chaque tontine dispose de 4 canaux de paiement rapides et sécurisés : Revolut, Wero, PayPal et Stripe. Vous choisissez votre méthode préférée à chaque échéance et l'administrateur Soraya Ahamada valide votre virement."
+      a: "Chaque tontine dispose de 4 canaux de paiement rapides et sécurisés : Revolut, Wero, PayPal et Stripe. Vous choisissez votre méthode préférée à chaque échéance et l'administrateur Soraya valide votre virement."
     },
     {
       q: "Pourquoi les tontines sont-elles toutes limitées à 8 participants ?",
@@ -98,7 +98,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto font-normal leading-relaxed">
-            Bienvenue dans l'espace <strong>Code Violet</strong>, géré par <strong>Soraya Ahamada</strong>. Des formules exclusives à 8 participants avec paiements simplifiés via Revolut, Wero, PayPal et Stripe.
+            Bienvenue dans l'espace <strong>Code Violet</strong>, géré par <strong>Soraya</strong>. Des formules exclusives à 8 participants avec paiements simplifiés via Revolut, Wero, PayPal et Stripe.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -206,7 +206,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[#8F5DFF]" />
-                    <span>Support par Soraya Ahamada</span>
+                    <span>Support par Soraya</span>
                   </div>
                 </div>
               </div>
@@ -551,7 +551,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
               </h2>
 
               <p className="text-gray-600 text-base leading-relaxed">
-                Rédigé par <strong>Soraya Ahamada</strong>, cet ouvrage pratique vous livre toutes les stratégies pour maîtriser votre gestion financière, sécuriser vos revenus et maximiser l'efficacité de vos cycles de tontine.
+                Rédigé par <strong>Soraya</strong>, cet ouvrage pratique vous livre toutes les stratégies pour maîtriser votre gestion financière, sécuriser vos revenus et maximiser l'efficacité de vos cycles de tontine.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold text-gray-700 pt-2">
@@ -629,13 +629,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
               <a href="#ebook" className="hover:text-[#8F5DFF]">E-book</a>
               <a href="#faq" className="hover:text-[#8F5DFF]">FAQ</a>
               <button onClick={() => switchRole('admin')} className="text-[#8F5DFF] font-extrabold hover:underline">
-                Accès Administrateur (Soraya Ahamada)
+                Accès Administrateur (Soraya)
               </button>
             </div>
           </div>
 
           <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400">
-            <p>© 2026 Code Violet • Administré par Soraya Ahamada. Tous droits réservés.</p>
+            <p>© 2026 Code Violet • Administré par Soraya. Tous droits réservés.</p>
             <button onClick={openSiteGate} className="flex items-center gap-1 mt-2 sm:mt-0 text-slate-400 hover:text-[#8F5DFF] transition-colors">
               <ShieldCheck className="w-4 h-4 text-[#8F5DFF]" /> Espace Code Violet Sécurisé
             </button>

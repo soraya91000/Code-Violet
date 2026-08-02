@@ -3,9 +3,27 @@ import { useApp } from '../../context/AppContext';
 import { Search, ShieldCheck, UserX, UserCheck, Mail, Phone, Filter, Crown } from 'lucide-react';
 
 export const AdminMembers: React.FC = () => {
-  const { users, toggleUserStatus } = useApp();
+  const { users, toggleUserStatus, memberAccessKeys, updateMemberAccessKey, addMemberAccessKey } = useApp();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<'all' | 'verified' | 'suspended'>('all');
+
+  const [editingUserId, setEditingUserId] = useState<string | null>(null);
+  const [newPwdInput, setNewPwdInput] = useState('');
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  const handleSavePassword = (userId: string) => {
+    if (newPwdInput.trim()) {
+      updateMemberAccessKey(userId, newPwdInput.trim());
+      setEditingUserId(null);
+      setNewPwdInput('');
+    }
+  };
+
+  const handleCopyPassword = (pwd: string) => {
+    navigator.clipboard.writeText(pwd);
+    setCopiedKey(pwd);
+    setTimeout(() => setCopiedKey(null), 2000);
+  };
 
   const filtered = users.filter(u => {
     if (filter === 'verified' && u.status !== 'verified') return false;
@@ -19,6 +37,103 @@ export const AdminMembers: React.FC = () => {
 
   return (
     <div className="space-y-8">
+      {/* Member Access Passwords Security Card */}
+      <div className="p-6 rounded-3xl bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900 border border-purple-800/40 text-white shadow-xl space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-purple-800/40 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-[#8F5DFF]/20 rounded-2xl border border-[#8F5DFF]/40">
+              <Crown className="w-5 h-5 text-[#F8D64E]" />
+            </div>
+            <div>
+              <h2 className="text-lg font-black tracking-tight text-white flex items-center gap-2">
+                Clés d'Accès Sécurisées (Mots de Passe Coffre)
+              </h2>
+              <p className="text-xs text-purple-200">
+                Chaque membre se connecte avec son mot de passe pour accéder à son espace privé dédié.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {/* Admin Key Card */}
+          <div className="p-4 rounded-2xl bg-slate-950/80 border border-[#F8D64E]/40 space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-extrabold text-[#F8D64E]">ADMINISTRATEUR (Soraya)</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#F8D64E]/20 text-[#F8D64E]">Accès Total</span>
+            </div>
+            <div className="flex items-center justify-between pt-1">
+              <span className="font-mono text-sm font-black text-white bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800">
+                coffre2020
+              </span>
+              <button
+                onClick={() => handleCopyPassword('coffre2020')}
+                className="text-xs font-bold text-slate-400 hover:text-white px-2 py-1 rounded-lg hover:bg-slate-800 transition-colors"
+              >
+                {copiedKey === 'coffre2020' ? 'Copié ! ✅' : 'Copier 📋'}
+              </button>
+            </div>
+          </div>
+
+          {/* Member Access Keys */}
+          {memberAccessKeys.map((key) => {
+            const user = users.find(u => u.id === key.userId);
+            const isEditing = editingUserId === key.userId;
+
+            return (
+              <div key={key.userId} className="p-4 rounded-2xl bg-slate-900/90 border border-purple-800/30 space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-200 truncate">
+                    {user ? `${user.firstName} ${user.lastName}` : key.label || key.userId}
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-purple-900/60 text-purple-300">
+                    Espace Membre
+                  </span>
+                </div>
+
+                {isEditing ? (
+                  <div className="flex items-center gap-2 pt-1">
+                    <input
+                      type="text"
+                      value={newPwdInput}
+                      onChange={(e) => setNewPwdInput(e.target.value)}
+                      placeholder="Nouveau pass..."
+                      className="w-full px-3 py-1.5 text-xs bg-slate-950 border border-purple-500 rounded-xl text-white outline-hidden font-mono"
+                    />
+                    <button
+                      onClick={() => handleSavePassword(key.userId)}
+                      className="px-3 py-1.5 bg-[#8F5DFF] hover:bg-[#7b46ff] text-white text-xs font-extrabold rounded-xl shrink-0"
+                    >
+                      OK
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="font-mono text-xs font-bold text-[#F8D64E] bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+                      {key.password}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => { setEditingUserId(key.userId); setNewPwdInput(key.password); }}
+                        className="text-[11px] font-semibold text-purple-300 hover:text-white px-2 py-1 rounded-lg hover:bg-slate-800 transition-colors"
+                      >
+                        Modifier
+                      </button>
+                      <button
+                        onClick={() => handleCopyPassword(key.password)}
+                        className="text-[11px] font-semibold text-slate-400 hover:text-white px-2 py-1 rounded-lg hover:bg-slate-800 transition-colors"
+                      >
+                        {copiedKey === key.password ? 'Copié !' : 'Copier'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-gray-900">Gestion des Membres & CRM</h1>

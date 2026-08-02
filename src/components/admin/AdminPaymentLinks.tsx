@@ -10,7 +10,7 @@ export const AdminPaymentLinks: React.FC = () => {
   const [name, setName] = useState('');
   const [platform, setPlatform] = useState<'Revolut' | 'Wero' | 'PayPal' | 'Lydia' | 'Stripe' | 'BankTransfer' | 'Custom'>('Revolut');
   const [url, setUrl] = useState('https://revolut.me/shsnhouse');
-  const [beneficiaryName, setBeneficiaryName] = useState('Soraya Ahamada (Code Violet)');
+  const [beneficiaryName, setBeneficiaryName] = useState('Soraya (Code Violet)');
   const [amount, setAmount] = useState(50);
   const [description, setDescription] = useState('');
   const [paymentInstructions, setPaymentInstructions] = useState('');

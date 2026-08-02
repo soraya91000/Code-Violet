@@ -11,6 +11,13 @@ export interface Testimonial {
 
 export type UserRole = 'member' | 'admin' | 'moderator' | 'manager';
 
+export interface MemberAccessKey {
+  userId: string;
+  password: string;
+  label?: string;
+  role?: UserRole;
+}
+
 export type AccountStatus = 'active' | 'suspended' | 'pending_verification';
 
 export type PaymentStatus = 

@@ -2,14 +2,14 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { 
   User, Tontine, PaymentLink, Payment, Offer, Ebook, 
   ChatMessage, Announcement, SupportTicket, Badge, 
-  AppNotification, TontineMember, Testimonial 
+  AppNotification, TontineMember, Testimonial, MemberAccessKey 
 } from '../types';
 import { 
   currentUserMock, adminUserMock, standardMemberMock, sampleUsers, 
   samplePaymentLinks, sampleTontines, samplePayments, 
   sampleOffers, sampleEbooks, sampleAnnouncements, 
   sampleChatMessages, sampleNotifications, sampleBadges, 
-  sampleSupportTickets, sampleTestimonials 
+  sampleSupportTickets, sampleTestimonials, sampleMemberAccessKeys 
 } from '../data/mockData';
 
 interface AppContextType {
@@ -28,6 +28,7 @@ interface AppContextType {
   supportTickets: SupportTicket[];
   badges: Badge[];
   testimonials: Testimonial[];
+  memberAccessKeys: MemberAccessKey[];
   isOffline: boolean;
   activeMemberTab: string;
   activeAdminTab: string;
@@ -42,7 +43,10 @@ interface AppContextType {
   confirmAdminPinAccess: () => void;
   openSiteGate: () => void;
   closeSiteGate: () => void;
-  confirmSiteGateAccess: (type?: 'owner' | 'standard_member') => void;
+  confirmSiteGateAccess: (type?: 'owner' | 'standard_member', userId?: string) => void;
+  updateMemberAccessKey: (userId: string, newPassword: string) => void;
+  addMemberAccessKey: (key: MemberAccessKey) => void;
+  deleteMemberAccessKey: (userId: string) => void;
   setActiveMemberTab: (tab: string) => void;
   setActiveAdminTab: (tab: string) => void;
   setSelectedTontineId: (id: string | null) => void;
@@ -115,6 +119,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [supportTickets, setSupportTickets] = useState<SupportTicket[]>(sampleSupportTickets);
   const [badges, setBadges] = useState<Badge[]>(sampleBadges);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(sampleTestimonials);
+  const [memberAccessKeys, setMemberAccessKeys] = useState<MemberAccessKey[]>(sampleMemberAccessKeys);
   const [isOffline, setIsOffline] = useState<boolean>(!navigator.onLine);
 
   const [activeMemberTab, setActiveMemberTab] = useState<string>('accueil');
@@ -142,9 +147,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+      let loadedUsers = sampleUsers;
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.users) setUsers(parsed.users);
+        if (parsed.users) { setUsers(parsed.users); loadedUsers = parsed.users; }
         if (parsed.tontines) setTontines(parsed.tontines);
         if (parsed.paymentLinks) setPaymentLinks(parsed.paymentLinks);
         if (parsed.payments) setPayments(parsed.payments);
@@ -155,23 +161,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (parsed.notifications) setNotifications(parsed.notifications);
         if (parsed.supportTickets) setSupportTickets(parsed.supportTickets);
         if (parsed.testimonials) setTestimonials(parsed.testimonials);
-        if (parsed.currentUser) {
-          setCurrentUser(parsed.currentUser);
+        if (parsed.memberAccessKeys) setMemberAccessKeys(parsed.memberAccessKeys);
+      }
+
+      const isGranted = localStorage.getItem('code_violet_site_access_granted') === 'true';
+      const savedAccessType = localStorage.getItem('code_violet_access_type');
+      const savedUserId = localStorage.getItem('code_violet_user_id');
+
+      if (isGranted) {
+        if (savedAccessType === 'owner') {
+          const admin = loadedUsers.find(u => u.id === 'usr_admin_soraya') || adminUserMock;
+          setCurrentUser(admin);
+          setActiveRole('admin');
+          setIsAdminPinVerified(true);
         } else {
-          const savedAccessType = localStorage.getItem('code_violet_access_type');
-          if (savedAccessType === 'owner') {
-            setCurrentUser(currentUserMock);
-          } else if (savedAccessType === 'standard_member') {
-            setCurrentUser(standardMemberMock);
-          }
+          const member = loadedUsers.find(u => u.id === savedUserId) || standardMemberMock;
+          setCurrentUser(member);
+          setActiveRole('member');
+          setIsAdminPinVerified(false);
         }
       } else {
-        const savedAccessType = localStorage.getItem('code_violet_access_type');
-        if (savedAccessType === 'owner') {
-          setCurrentUser(currentUserMock);
-        } else if (savedAccessType === 'standard_member') {
-          setCurrentUser(standardMemberMock);
-        }
+        setActiveRole('public');
       }
     } catch (e) {
       console.warn('Failed to load local state', e);
@@ -183,7 +193,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       const currentFullState = {
         users, tontines, paymentLinks, payments, offers, ebooks,
-        announcements, chatMessages, notifications, supportTickets, testimonials, currentUser,
+        announcements, chatMessages, notifications, supportTickets, testimonials, memberAccessKeys, currentUser,
         ...updated
       };
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentFullState));
@@ -199,18 +209,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
     setActiveRole(role);
     if (role === 'admin') {
-      setCurrentUser(adminUserMock);
+      const admin = users.find(u => u.id === 'usr_admin_soraya') || adminUserMock;
+      setCurrentUser(admin);
     } else if (role === 'member') {
       setIsAdminPinVerified(false);
-      const savedAccessType = localStorage.getItem('code_violet_access_type');
-      if (savedAccessType === 'owner') {
-        const soraya = users.find(u => u.id === 'usr_soraya') || currentUserMock;
-        setCurrentUser(soraya);
-      } else {
-        const member = users.find(u => u.id === 'usr_espace_membre') || standardMemberMock;
-        setCurrentUser(member);
-      }
+      const savedUserId = localStorage.getItem('code_violet_user_id');
+      const member = users.find(u => u.id === savedUserId) || standardMemberMock;
+      setCurrentUser(member);
     } else if (role === 'public') {
+      localStorage.removeItem('code_violet_site_access_granted');
+      localStorage.removeItem('code_violet_access_type');
+      localStorage.removeItem('code_violet_user_id');
       setIsAdminPinVerified(false);
     }
   };
@@ -223,7 +232,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsAdminPinVerified(true);
     setIsAdminPinModalOpen(false);
     setActiveRole('admin');
-    setCurrentUser(adminUserMock);
+    const admin = users.find(u => u.id === 'usr_admin_soraya') || adminUserMock;
+    setCurrentUser(admin);
+    localStorage.setItem('code_violet_site_access_granted', 'true');
+    localStorage.setItem('code_violet_access_type', 'owner');
+    localStorage.setItem('code_violet_user_id', admin.id);
   };
 
   const openSiteGate = () => {
@@ -234,17 +247,43 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsSiteGateOpen(false);
   };
 
-  const confirmSiteGateAccess = (type: 'owner' | 'standard_member' = 'standard_member') => {
+  const confirmSiteGateAccess = (type: 'owner' | 'standard_member' = 'standard_member', targetUserId?: string) => {
     setIsSiteGateOpen(false);
+    localStorage.setItem('code_violet_site_access_granted', 'true');
     localStorage.setItem('code_violet_access_type', type);
+
     if (type === 'owner') {
-      const soraya = users.find(u => u.id === 'usr_soraya') || currentUserMock;
-      setCurrentUser(soraya);
+      const admin = users.find(u => u.id === 'usr_admin_soraya') || adminUserMock;
+      setCurrentUser(admin);
+      setActiveRole('admin');
+      setIsAdminPinVerified(true);
+      localStorage.setItem('code_violet_user_id', admin.id);
     } else {
-      const member = users.find(u => u.id === 'usr_espace_membre') || standardMemberMock;
+      setIsAdminPinVerified(false);
+      const userIdToUse = targetUserId || localStorage.getItem('code_violet_user_id') || 'usr_espace_membre';
+      const member = users.find(u => u.id === userIdToUse) || standardMemberMock;
       setCurrentUser(member);
+      setActiveRole('member');
+      localStorage.setItem('code_violet_user_id', member.id);
     }
-    setActiveRole('member');
+  };
+
+  const updateMemberAccessKey = (userId: string, newPassword: string) => {
+    const updated = memberAccessKeys.map(k => k.userId === userId ? { ...k, password: newPassword } : k);
+    setMemberAccessKeys(updated);
+    saveState({ memberAccessKeys: updated });
+  };
+
+  const addMemberAccessKey = (key: MemberAccessKey) => {
+    const updated = [...memberAccessKeys.filter(k => k.userId !== key.userId), key];
+    setMemberAccessKeys(updated);
+    saveState({ memberAccessKeys: updated });
+  };
+
+  const deleteMemberAccessKey = (userId: string) => {
+    const updated = memberAccessKeys.filter(k => k.userId !== userId);
+    setMemberAccessKeys(updated);
+    saveState({ memberAccessKeys: updated });
   };
 
   // Payment Flow Actions
@@ -742,6 +781,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       supportTickets,
       badges,
       testimonials,
+      memberAccessKeys,
       isOffline,
       activeMemberTab,
       activeAdminTab,
@@ -756,6 +796,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       openSiteGate,
       closeSiteGate,
       confirmSiteGateAccess,
+      updateMemberAccessKey,
+      addMemberAccessKey,
+      deleteMemberAccessKey,
       setActiveMemberTab,
       setActiveAdminTab,
       setSelectedTontineId,

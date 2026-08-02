@@ -83,7 +83,7 @@ export const AdminSidebar: React.FC = () => {
       {/* Footer Info */}
       <div className="pt-4 border-t border-purple-100 text-center">
         <p className="text-[11px] font-bold text-gray-500">Code Violet Admin v2.4.0</p>
-        <p className="text-[10px] text-gray-400">Administratrice : Soraya Ahamada</p>
+        <p className="text-[10px] text-gray-400">Administratrice : Soraya</p>
       </div>
     </aside>
   );

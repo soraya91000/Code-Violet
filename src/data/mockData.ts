@@ -1,4 +1,15 @@
-import { User, Tontine, PaymentLink, Payment, Offer, Ebook, ChatMessage, Announcement, SupportTicket, Badge, AppNotification, CalendarEvent, Testimonial } from '../types';
+import { User, Tontine, PaymentLink, Payment, Offer, Ebook, ChatMessage, Announcement, SupportTicket, Badge, AppNotification, CalendarEvent, Testimonial, MemberAccessKey } from '../types';
+
+export const sampleMemberAccessKeys: MemberAccessKey[] = [
+  { userId: 'usr_espace_membre', password: 'coffre#1', label: 'Espace Membre 1' },
+  { userId: 'usr_aminata', password: 'coffre#2', label: 'Espace Membre 2 (Aminata)' },
+  { userId: 'usr_chloe', password: 'coffre#3', label: 'Espace Membre 3 (Chloé)' },
+  { userId: 'usr_fatou', password: 'coffre#4', label: 'Espace Membre 4 (Fatou)' },
+  { userId: 'usr_sarah', password: 'coffre#5', label: 'Espace Membre 5 (Sarah)' },
+  { userId: 'usr_laura', password: 'coffre#6', label: 'Espace Membre 6 (Laura)' },
+  { userId: 'usr_ines', password: 'coffre#7', label: 'Espace Membre 7 (Inès)' },
+  { userId: 'usr_nora', password: 'coffre#8', label: 'Espace Membre 8 (Nora)' },
+];
 
 export const currentUserMock: User = {
   id: 'usr_soraya',

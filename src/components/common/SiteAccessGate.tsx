@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Lock, ShieldCheck, KeyRound, AlertCircle, ArrowRight, Eye, EyeOff, CheckCircle2, X } from 'lucide-react';
 import { Logo } from './Logo';
+import { useApp } from '../../context/AppContext';
 
 interface SiteAccessGateProps {
   children?: React.ReactNode;
@@ -16,6 +17,8 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
   onCloseModal,
   onSuccessAccess,
 }) => {
+  const { memberAccessKeys, users, confirmSiteGateAccess } = useApp();
+
   const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
     return localStorage.getItem('code_violet_site_access_granted') === 'true';
   });
@@ -40,7 +43,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
     const cleanPwd = password.trim();
 
     if (cleanPwd === 'coffre2020' || cleanPwd === '2020') {
-      // Owner / Admin Access - Soraya Ahamada
+      // Owner / Admin Access - Soraya
       setError(false);
       setSuccessMsg(true);
       setAccessModeType('owner');
@@ -48,8 +51,10 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
       setTimeout(() => {
         localStorage.setItem('code_violet_site_access_granted', 'true');
         localStorage.setItem('code_violet_access_type', 'owner');
+        localStorage.setItem('code_violet_user_id', 'usr_admin_soraya');
         setIsUnlocked(true);
         setLoading(false);
+        confirmSiteGateAccess('owner', 'usr_admin_soraya');
         if (onSuccessAccess) {
           onSuccessAccess('owner');
         }
@@ -57,8 +62,15 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
           onCloseModal();
         }
       }, 600);
-    } else if (cleanPwd === 'coffre#1') {
-      // Individual Member Space - Clean personalized user space
+      return;
+    }
+
+    // Check member access keys
+    const matchedKey = memberAccessKeys?.find(
+      k => k.password.trim().toLowerCase() === cleanPwd.toLowerCase()
+    );
+
+    if (matchedKey) {
       setError(false);
       setSuccessMsg(true);
       setAccessModeType('standard_member');
@@ -66,8 +78,10 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
       setTimeout(() => {
         localStorage.setItem('code_violet_site_access_granted', 'true');
         localStorage.setItem('code_violet_access_type', 'standard_member');
+        localStorage.setItem('code_violet_user_id', matchedKey.userId);
         setIsUnlocked(true);
         setLoading(false);
+        confirmSiteGateAccess('standard_member', matchedKey.userId);
         if (onSuccessAccess) {
           onSuccessAccess('standard_member');
         }
@@ -75,10 +89,42 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
           onCloseModal();
         }
       }, 600);
-    } else {
-      setError(true);
-      setSuccessMsg(false);
+      return;
     }
+
+    // Pattern fallback for coffre#N
+    if (cleanPwd.toLowerCase().startsWith('coffre#')) {
+      const numStr = cleanPwd.substring(7);
+      const num = parseInt(numStr, 10);
+      if (!isNaN(num) && num >= 1) {
+        const memberList = (users || []).filter(u => u.role === 'member');
+        const targetUser = memberList[(num - 1) % memberList.length] || memberList[0];
+        
+        setError(false);
+        setSuccessMsg(true);
+        setAccessModeType('standard_member');
+        setLoading(true);
+        setTimeout(() => {
+          localStorage.setItem('code_violet_site_access_granted', 'true');
+          localStorage.setItem('code_violet_access_type', 'standard_member');
+          localStorage.setItem('code_violet_user_id', targetUser.id);
+          setIsUnlocked(true);
+          setLoading(false);
+          confirmSiteGateAccess('standard_member', targetUser.id);
+          if (onSuccessAccess) {
+            onSuccessAccess('standard_member');
+          }
+          if (onCloseModal) {
+            onCloseModal();
+          }
+        }, 600);
+        return;
+      }
+    }
+
+    // Invalid password
+    setError(true);
+    setSuccessMsg(false);
   };
 
   const handleRelock = () => {
