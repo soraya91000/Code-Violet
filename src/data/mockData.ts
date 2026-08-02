@@ -41,9 +41,33 @@ export const adminUserMock: User = {
   totalReceived: 1200.00,
 };
 
+export const standardMemberMock: User = {
+  id: 'usr_espace_membre',
+  firstName: 'Membre',
+  lastName: 'Code Violet',
+  email: 'mon.espace@codeviolet.com',
+  phone: '+33 6 12 00 20 26',
+  avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+  isVerified: true,
+  role: 'member',
+  status: 'active',
+  joinedDate: 'Août 2026',
+  address: 'Espace Membre Individuel, France',
+  preferredPaymentMethod: 'Revolut / Wero',
+  hasEbookAccess: true,
+  referralCode: 'MEMBRE-COFFRE1',
+  referralsCount: 0,
+  totalPaid: 50.00,
+  totalReceived: 0.00,
+  crmCategory: 'validated',
+  tags: ['Espace Personnel', 'Code Violet'],
+  internalNotes: 'Espace individuel sécurisé.',
+};
+
 export const sampleUsers: User[] = [
   currentUserMock,
   adminUserMock,
+  standardMemberMock,
   {
     id: 'usr_aminata',
     firstName: 'Aminata',

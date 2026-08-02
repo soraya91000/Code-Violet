@@ -44,10 +44,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
         return;
       }
       updateUserProfile({
-        firstName: firstName || 'Soraya',
-        lastName: lastName || 'Benziane',
-        email: email || 'Soraya91000@gmail.com',
-        phone: phone || '+33 6 12 34 56 78',
+        firstName: firstName || 'Nouveau',
+        lastName: lastName || 'Membre',
+        email: email || 'membre@codeviolet.com',
+        phone: phone || '+33 6 00 11 22 33',
       });
       setMode('success');
     } else if (mode === '2fa') {

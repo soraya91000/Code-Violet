@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Lock, ShieldCheck, KeyRound, AlertCircle, ArrowRight, Eye, EyeOff, Sparkles, CheckCircle2, X } from 'lucide-react';
+import { Lock, ShieldCheck, KeyRound, AlertCircle, ArrowRight, Eye, EyeOff, CheckCircle2, X } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface SiteAccessGateProps {
   children?: React.ReactNode;
   isOpenModal?: boolean;
   onCloseModal?: () => void;
-  onSuccessAccess?: () => void;
+  onSuccessAccess?: (type: 'owner' | 'standard_member') => void;
 }
 
 export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
@@ -23,6 +23,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
+  const [accessModeType, setAccessModeType] = useState<'owner' | 'standard_member' | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -30,22 +31,45 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
       setPassword('');
       setError(false);
       setSuccessMsg(false);
+      setAccessModeType(null);
     }
   }, [isOpenModal]);
 
   const handleUnlock = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanPwd = password.trim().toLowerCase();
+    const cleanPwd = password.trim();
+
     if (cleanPwd === 'coffre2020' || cleanPwd === '2020') {
+      // Owner / Admin Access - Soraya Ahamada
       setError(false);
       setSuccessMsg(true);
+      setAccessModeType('owner');
       setLoading(true);
       setTimeout(() => {
         localStorage.setItem('code_violet_site_access_granted', 'true');
+        localStorage.setItem('code_violet_access_type', 'owner');
         setIsUnlocked(true);
         setLoading(false);
         if (onSuccessAccess) {
-          onSuccessAccess();
+          onSuccessAccess('owner');
+        }
+        if (onCloseModal) {
+          onCloseModal();
+        }
+      }, 600);
+    } else if (cleanPwd === 'coffre#1') {
+      // Individual Member Space - Clean personalized user space
+      setError(false);
+      setSuccessMsg(true);
+      setAccessModeType('standard_member');
+      setLoading(true);
+      setTimeout(() => {
+        localStorage.setItem('code_violet_site_access_granted', 'true');
+        localStorage.setItem('code_violet_access_type', 'standard_member');
+        setIsUnlocked(true);
+        setLoading(false);
+        if (onSuccessAccess) {
+          onSuccessAccess('standard_member');
         }
         if (onCloseModal) {
           onCloseModal();
@@ -59,11 +83,57 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
 
   const handleRelock = () => {
     localStorage.removeItem('code_violet_site_access_granted');
+    localStorage.removeItem('code_violet_access_type');
     setIsUnlocked(false);
     setPassword('');
   };
 
-  // If used as a modal trigger (e.g. from clicking "Accès Code Violet" on LandingPage)
+  // Golden Rotating Ring Graphic Component
+  const GoldenLockGraphic = () => (
+    <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+      {/* 1. Outer Golden Rotating Conic Gradient Ring */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+        className="absolute -inset-1.5 rounded-full p-[3px] shadow-[0_0_25px_rgba(248,214,78,0.6)]"
+        style={{
+          background: 'conic-gradient(from 0deg, #F8D64E, #FFF3B0, #D97706, #F8D64E, #FFE885, #F8D64E)'
+        }}
+      />
+
+      {/* 2. Inner Golden Dashed Ring Rotating in Reverse */}
+      <motion.div
+        animate={{ rotate: -360 }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0 rounded-full border-2 border-dashed border-[#F8D64E] opacity-75"
+      />
+
+      {/* 3. Orbiting Gold Particle */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
+        className="absolute -inset-2.5 rounded-full pointer-events-none"
+      >
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#FFF5C0] rounded-full shadow-[0_0_15px_#F8D64E] border-2 border-white flex items-center justify-center">
+          <div className="w-1.5 h-1.5 bg-[#B45309] rounded-full" />
+        </div>
+      </motion.div>
+
+      {/* 4. Golden Pulsing Glowing Ambient Background */}
+      <motion.div
+        animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.35, 0.7, 0.35] }}
+        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-1 rounded-full bg-[#F8D64E]/25 blur-md"
+      />
+
+      {/* 5. Central Dark Badge with Golden Lock Icon */}
+      <div className="relative w-20 h-20 rounded-full bg-slate-950 border-2 border-[#F8D64E] flex items-center justify-center text-[#F8D64E] shadow-2xl z-10">
+        <Lock className="w-9 h-9 text-[#F8D64E] drop-shadow-[0_0_12px_rgba(248,214,78,0.9)]" />
+      </div>
+    </div>
+  );
+
+  // Modal Trigger Overlay
   if (isOpenModal !== undefined) {
     if (!isOpenModal) return null;
 
@@ -95,48 +165,8 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
               <Logo variant="dark" className="scale-110" />
             </div>
 
-            {/* GOLDEN ROTATING ANIMATION AROUND THE LOCK ICON */}
-            <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-              {/* 1. Outer Golden Rotating Conic Gradient Ring */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-1.5 rounded-full p-[3px] shadow-[0_0_25px_rgba(248,214,78,0.6)]"
-                style={{
-                  background: 'conic-gradient(from 0deg, #F8D64E, #FFF3B0, #D97706, #F8D64E, #FFE885, #F8D64E)'
-                }}
-              />
-
-              {/* 2. Inner Golden Dashed Ring Rotating in Reverse */}
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-full border-2 border-dashed border-[#F8D64E] opacity-75"
-              />
-
-              {/* 3. Orbiting Gold Particle */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-2.5 rounded-full pointer-events-none"
-              >
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#FFF5C0] rounded-full shadow-[0_0_15px_#F8D64E] border-2 border-white flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 bg-[#B45309] rounded-full" />
-                </div>
-              </motion.div>
-
-              {/* 4. Golden Pulsing Glowing Ambient Background */}
-              <motion.div
-                animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.35, 0.7, 0.35] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-1 rounded-full bg-[#F8D64E]/25 blur-md"
-              />
-
-              {/* 5. Central Dark Badge with Golden Lock Icon */}
-              <div className="relative w-20 h-20 rounded-full bg-slate-950 border-2 border-[#F8D64E] flex items-center justify-center text-[#F8D64E] shadow-2xl z-10">
-                <Lock className="w-9 h-9 text-[#F8D64E] drop-shadow-[0_0_12px_rgba(248,214,78,0.9)]" />
-              </div>
-            </div>
+            {/* GOLDEN ROTATING LOCK ANIMATION */}
+            <GoldenLockGraphic />
 
             {/* Header titles */}
             <div className="space-y-2 mb-6">
@@ -147,7 +177,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
                 Plateforme Code Violet
               </h2>
               <p className="text-xs text-slate-300 leading-relaxed max-w-xs mx-auto">
-                Saisissez le mot de passe d'accès pour entrer sur la plateforme.
+                Saisissez votre mot de passe d'accès pour entrer dans votre espace.
               </p>
             </div>
 
@@ -158,7 +188,6 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
                   <span className="flex items-center gap-1.5">
                     <KeyRound className="w-3.5 h-3.5 text-[#F8D64E]" /> Mot de passe d'accès
                   </span>
-                  <span className="text-[10px] text-[#F8D64E] font-medium">(coffre2020)</span>
                 </label>
 
                 <div className="relative">
@@ -166,7 +195,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
                     type={showPassword ? "text" : "password"}
                     required
                     autoFocus
-                    placeholder="Saisissez le mot de passe"
+                    placeholder="Entrez votre mot de passe"
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
@@ -194,7 +223,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
                     className="flex items-center gap-1.5 text-xs font-semibold text-rose-400 bg-rose-950/50 border border-rose-900/60 p-2.5 rounded-xl mt-2"
                   >
                     <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
-                    <span>Mot de passe incorrect ! (Mot de passe : coffre2020)</span>
+                    <span>Mot de passe incorrect.</span>
                   </motion.div>
                 )}
 
@@ -205,7 +234,11 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
                     className="flex items-center gap-1.5 text-xs font-semibold text-emerald-300 bg-emerald-950/60 border border-emerald-800/60 p-2.5 rounded-xl mt-2"
                   >
                     <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
-                    <span>Accès autorisé ! Redirection en cours...</span>
+                    <span>
+                      {accessModeType === 'owner'
+                        ? 'Espace Administrateur déverrouillé !'
+                        : 'Bienvenue dans votre Espace Membre Personnel !'}
+                    </span>
                   </motion.div>
                 )}
               </div>
@@ -227,7 +260,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
             </form>
 
             <p className="mt-6 text-[11px] text-slate-500">
-              Code Violet • Cercle Privé & Sécurisé
+              Code Violet • Espace Sécurisé
             </p>
           </motion.div>
         </div>
@@ -267,43 +300,8 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
           <Logo variant="dark" className="scale-110" />
         </div>
 
-        {/* GOLDEN ROTATING ANIMATION AROUND THE LOCK ICON */}
-        <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-            className="absolute -inset-1.5 rounded-full p-[3px] shadow-[0_0_25px_rgba(248,214,78,0.6)]"
-            style={{
-              background: 'conic-gradient(from 0deg, #F8D64E, #FFF3B0, #D97706, #F8D64E, #FFE885, #F8D64E)'
-            }}
-          />
-
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 rounded-full border-2 border-dashed border-[#F8D64E] opacity-75"
-          />
-
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
-            className="absolute -inset-2.5 rounded-full pointer-events-none"
-          >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#FFF5C0] rounded-full shadow-[0_0_15px_#F8D64E] border-2 border-white flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-[#B45309] rounded-full" />
-            </div>
-          </motion.div>
-
-          <motion.div
-            animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.35, 0.7, 0.35] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-1 rounded-full bg-[#F8D64E]/25 blur-md"
-          />
-
-          <div className="relative w-20 h-20 rounded-full bg-slate-950 border-2 border-[#F8D64E] flex items-center justify-center text-[#F8D64E] shadow-2xl z-10">
-            <Lock className="w-9 h-9 text-[#F8D64E] drop-shadow-[0_0_12px_rgba(248,214,78,0.9)]" />
-          </div>
-        </div>
+        {/* GOLDEN ROTATING LOCK ANIMATION */}
+        <GoldenLockGraphic />
 
         <div className="space-y-2 mb-6">
           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#8F5DFF]/20 border border-[#8F5DFF]/30 text-[#8F5DFF] text-[10px] font-black uppercase tracking-wider">
@@ -313,7 +311,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
             Plateforme Code Violet
           </h2>
           <p className="text-xs text-slate-400 leading-relaxed max-w-xs mx-auto">
-            Veuillez entrer le mot de passe d'accès pour continuer vers la plateforme.
+            Veuillez entrer votre mot de passe d'accès pour continuer vers la plateforme.
           </p>
         </div>
 
@@ -358,7 +356,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
                 className="flex items-center gap-1.5 text-xs font-semibold text-rose-400 bg-rose-950/40 border border-rose-900/50 p-2 rounded-xl mt-2"
               >
                 <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
-                <span>Mot de passe incorrect. (Code : coffre2020)</span>
+                <span>Mot de passe incorrect.</span>
               </motion.div>
             )}
 
@@ -369,7 +367,11 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
                 className="flex items-center gap-1.5 text-xs font-semibold text-emerald-300 bg-emerald-950/60 border border-emerald-800/60 p-2.5 rounded-xl mt-2"
               >
                 <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
-                <span>Accès autorisé ! Redirection...</span>
+                <span>
+                  {accessModeType === 'owner'
+                    ? 'Espace Administrateur déverrouillé !'
+                    : 'Bienvenue dans votre Espace Membre Personnel !'}
+                </span>
               </motion.div>
             )}
           </div>

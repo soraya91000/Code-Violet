@@ -263,30 +263,30 @@ export const MemberDashboard: React.FC<MemberDashboardProps> = ({ onPayNow, onVi
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
             {activeTontine.members.slice(0, 6).map((m) => {
-              const isSoraya = m.userId === currentUser.id;
+              const isMe = m.userId === currentUser.id;
               return (
                 <div
                   key={m.userId}
                   className={`p-3.5 rounded-2xl border transition-all ${
-                    isSoraya
+                    isMe
                       ? 'bg-[#F3EEFF] border-[#8F5DFF] shadow-xs'
                       : 'bg-slate-50/70 border-slate-100 hover:bg-slate-100/60'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className={`w-6 h-6 rounded-full flex items-center justify-center font-black text-xs ${
-                      m.status === 'served' ? 'bg-emerald-100 text-emerald-700' : isSoraya ? 'bg-[#F8D64E] text-slate-900' : 'bg-slate-200 text-slate-700'
+                      m.status === 'served' ? 'bg-emerald-100 text-emerald-700' : isMe ? 'bg-[#F8D64E] text-slate-900' : 'bg-slate-200 text-slate-700'
                     }`}>
                       {m.orderPosition}
                     </span>
                     <span className={`px-2 py-0.5 text-[9px] font-black rounded-full ${
                       m.status === 'served'
                         ? 'bg-emerald-100 text-emerald-800'
-                        : isSoraya
+                        : isMe
                         ? 'bg-[#8F5DFF] text-white'
                         : 'bg-slate-200 text-slate-600'
                     }`}>
-                      {m.status === 'served' ? 'Servie 🟢' : isSoraya ? 'Mon Tour 👑' : 'À venir'}
+                      {m.status === 'served' ? 'Servie 🟢' : isMe ? 'Mon Tour 👑' : 'À venir'}
                     </span>
                   </div>
 

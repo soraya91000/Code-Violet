@@ -213,12 +213,12 @@ export const TontineDetail: React.FC<TontineDetailProps> = ({ tontineId, onBack,
           <h3 className="font-extrabold text-gray-900 text-base">Membres et Ordre de Passage</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {tontine.members.map(m => {
-              const isSoraya = m.userId === currentUser.id;
+              const isMe = m.userId === currentUser.id;
               return (
                 <div
                   key={m.userId}
                   className={`p-4 rounded-2xl border flex items-center justify-between ${
-                    isSoraya ? 'bg-[#F3EEFF] border-[#8F5DFF]' : 'bg-white border-gray-100'
+                    isMe ? 'bg-[#F3EEFF] border-[#8F5DFF]' : 'bg-white border-gray-100'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -231,7 +231,7 @@ export const TontineDetail: React.FC<TontineDetailProps> = ({ tontineId, onBack,
                       className="w-9 h-9 rounded-full object-cover"
                     />
                     <div>
-                      <p className="font-bold text-gray-900 text-xs">{m.firstName} {m.lastName} {isSoraya && '(Vous)'}</p>
+                      <p className="font-bold text-gray-900 text-xs">{m.firstName} {m.lastName} {isMe && '(Vous)'}</p>
                       <p className="text-[10px] text-gray-400">Distribution : {m.estimatedPayoutDate}</p>
                     </div>
                   </div>

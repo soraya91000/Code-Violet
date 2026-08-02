@@ -120,19 +120,19 @@ export const MemberTurn: React.FC = () => {
 
         <div className="flex items-center gap-4 overflow-x-auto pb-4 pt-2">
           {activeTontine.members.map((m) => {
-            const isSoraya = m.userId === currentUser.id;
+            const isMe = m.userId === currentUser.id;
             return (
               <div
                 key={m.userId}
                 className={`flex-shrink-0 w-44 p-4 rounded-2xl border text-center space-y-2 relative ${
-                  isSoraya
+                  isMe
                     ? 'bg-gradient-to-b from-[#F3EEFF] to-white border-2 border-[#F8D64E] shadow-md scale-105'
                     : m.status === 'served'
                     ? 'bg-emerald-50/50 border-emerald-200'
                     : 'bg-gray-50 border-gray-200'
                 }`}
               >
-                {isSoraya && (
+                {isMe && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#F8D64E] text-black text-[9px] font-black px-2 py-0.5 rounded-full shadow-xs">
                     VOTRE TOUR
                   </span>
@@ -149,11 +149,11 @@ export const MemberTurn: React.FC = () => {
                 <span className={`inline-block px-2 py-0.5 text-[9px] font-black rounded-full ${
                   m.status === 'served'
                     ? 'bg-emerald-100 text-emerald-800'
-                    : isSoraya
+                    : isMe
                     ? 'bg-[#8F5DFF] text-white'
                     : 'bg-gray-200 text-gray-600'
                 }`}>
-                  {m.status === 'served' ? 'Servie 🟢' : isSoraya ? 'Le 15 Nov 👑' : 'À venir ⏳'}
+                  {m.status === 'served' ? 'Servie 🟢' : isMe ? 'Le 15 Nov 👑' : 'À venir ⏳'}
                 </span>
               </div>
             );
