@@ -84,7 +84,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
       <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden bg-gradient-to-b from-[#F5EEFF] via-[#FDFCFE] to-white">
         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[650px] h-[320px] bg-[#8F5DFF]/10 rounded-full blur-3xl pointer-events-none" />
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
+          {/* Logo Officiel Image */}
+          <div className="flex justify-center pt-2">
+            <img 
+              src="https://image.noelshack.com/fichiers/2026/32/1/1785708082-70c4b4dd-f12e-41fd-87c8-0cdde670ac94.jpg" 
+              alt="Logo Officiel Code Violet" 
+              className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-3xl shadow-xl border-2 border-[#8F5DFF]/30 mx-auto transform hover:scale-105 transition-transform"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-purple-200 text-[#8F5DFF] font-extrabold text-xs sm:text-sm shadow-xs">
             <Sparkles className="w-4 h-4 text-[#F8D64E]" />
             <span>Code Violet • Cercle d'Épargne Privé & Structuré</span>
@@ -547,12 +557,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onJoinClick, onLoginCl
             <div className="lg:col-span-5 relative">
               <div className="relative mx-auto max-w-sm">
                 <div className="absolute inset-0 bg-[#8F5DFF]/20 rounded-3xl blur-2xl transform rotate-3" />
-                <img
-                  src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80"
-                  alt="E-book Code Violet"
-                  className="relative rounded-3xl shadow-2xl border-4 border-white object-cover w-full h-[380px]"
-                />
-                <div className="absolute -bottom-4 -right-4 px-5 py-2.5 bg-[#F8D64E] text-[#111827] font-black rounded-2xl shadow-lg text-lg flex items-center gap-1.5 border-2 border-white">
+                <div className="relative rounded-3xl shadow-2xl border-4 border-white bg-[#120B2E] overflow-hidden flex items-center justify-center p-2">
+                  <img
+                    src="https://image.noelshack.com/fichiers/2026/32/1/1785708347-e8909f30-5565-417b-a872-ad5bb85375db.jpg"
+                    alt="E-book Code Violet"
+                    className="w-full h-auto max-h-[420px] object-contain rounded-2xl"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="absolute -bottom-4 -right-4 px-5 py-2.5 bg-[#F8D64E] text-[#111827] font-black rounded-2xl shadow-lg text-lg flex items-center gap-1.5 border-2 border-white z-10">
                   <span>14,99 €</span>
                 </div>
               </div>

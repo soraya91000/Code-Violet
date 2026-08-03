@@ -46,7 +46,7 @@ export const AdminMembers: React.FC = () => {
             </div>
             <div>
               <h2 className="text-lg font-black tracking-tight text-white flex items-center gap-2">
-                Clés d'Accès Sécurisées (Mots de Passe Coffre)
+                Clés d'Accès Sécurisées (Mots de Passe Membre)
               </h2>
               <p className="text-xs text-purple-200">
                 Chaque membre se connecte avec son mot de passe pour accéder à son espace privé dédié.
@@ -64,13 +64,13 @@ export const AdminMembers: React.FC = () => {
             </div>
             <div className="flex items-center justify-between pt-1">
               <span className="font-mono text-sm font-black text-white bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800">
-                coffre2020
+                violet2020
               </span>
               <button
-                onClick={() => handleCopyPassword('coffre2020')}
+                onClick={() => handleCopyPassword('violet2020')}
                 className="text-xs font-bold text-slate-400 hover:text-white px-2 py-1 rounded-lg hover:bg-slate-800 transition-colors"
               >
-                {copiedKey === 'coffre2020' ? 'Copié ! ✅' : 'Copier 📋'}
+                {copiedKey === 'violet2020' ? 'Copié ! ✅' : 'Copier 📋'}
               </button>
             </div>
           </div>
@@ -189,6 +189,7 @@ export const AdminMembers: React.FC = () => {
                         src={user.avatarUrl}
                         alt={user.firstName}
                         className="w-9 h-9 rounded-full object-cover border-2 border-purple-100"
+                        referrerPolicy="no-referrer"
                       />
                       <div>
                         <p className="font-extrabold text-gray-900">{user.firstName} {user.lastName}</p>

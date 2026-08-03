@@ -9,7 +9,7 @@ export const AdminOffers: React.FC = () => {
     name: '',
     price: 50,
     description: '',
-    benefits: ['Accès Tontine 50€/mois', 'Support Prioritaire VIP', 'Coffre-fort Documentaire'],
+    benefits: ['Accès Tontine 50€/mois', 'Support Prioritaire VIP', 'Espace Documentaire'],
     paymentLinkId: paymentLinks[0]?.id || '',
     isEbookIncluded: true,
     isHighlighted: false,
@@ -39,7 +39,7 @@ export const AdminOffers: React.FC = () => {
               Gestion des <span className="font-extrabold text-[#F8D64E]">Formules & Packs</span>
             </h1>
             <p className="text-xs sm:text-sm text-purple-200 max-w-xl">
-              Configurez les abonnements, tarifs, cagnottes associées et avantages réservés aux membres TONTINES COFFRES.
+              Configurez les abonnements, tarifs, cagnottes associées et avantages réservés aux membres TONTINES CODE VIOLET.
             </p>
           </div>
 

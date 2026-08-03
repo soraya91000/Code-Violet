@@ -16,7 +16,7 @@ export const AdminEbooks: React.FC = () => {
       title,
       author,
       description: description || 'Guide complet d\'éducation financière et d\'épargne collective.',
-      coverUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80',
+      coverUrl: 'https://image.noelshack.com/fichiers/2026/32/1/1785708347-e8909f30-5565-417b-a872-ad5bb85375db.jpg',
       pdfUrl: '#',
       pagesCount: 84,
     });
@@ -55,11 +55,14 @@ export const AdminEbooks: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {ebooks.map((ebook) => (
           <div key={ebook.id} className="p-6 bg-white rounded-[32px] border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-5">
-            <img 
-              src={ebook.coverUrl} 
-              alt={ebook.title} 
-              className="w-full sm:w-32 h-44 object-cover rounded-2xl border border-slate-200 shrink-0" 
-            />
+            <div className="w-full sm:w-36 h-48 bg-[#120B2E] rounded-2xl border border-slate-200 shrink-0 flex items-center justify-center p-1">
+              <img 
+                src={ebook.coverUrl} 
+                alt={ebook.title} 
+                className="w-full h-full object-contain rounded-xl"
+                referrerPolicy="no-referrer"
+              />
+            </div>
 
             <div className="flex-1 space-y-3 flex flex-col justify-between">
               <div className="space-y-1">

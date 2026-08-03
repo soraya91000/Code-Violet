@@ -57,7 +57,7 @@ export const AdminAnnouncements: React.FC = () => {
               Diffusion d'<span className="font-extrabold text-[#F8D64E]">Annonces & Notifications Push</span>
             </h1>
             <p className="text-xs sm:text-sm text-purple-200 max-w-xl">
-              Communiquez avec la communauté TONTINES COFFRES, épinglez les rappels de tirage et envoyez des notifications en direct.
+              Communiquez avec la communauté TONTINES CODE VIOLET, épinglez les rappels de tirage et envoyez des notifications en direct.
             </p>
           </div>
 

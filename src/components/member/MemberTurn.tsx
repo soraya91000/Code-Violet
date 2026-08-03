@@ -42,7 +42,7 @@ export const MemberTurn: React.FC = () => {
         </div>
         <h1 className="text-3xl font-black text-gray-900">Suivi de Votre Tour de Passage</h1>
         <p className="text-xs text-gray-500">
-          Visualisez votre position dans le coffre d'épargne et suivez le compte à rebours avant la mise à disposition de votre capital.
+          Visualisez votre position dans la tontine d'épargne et suivez le compte à rebours avant la mise à disposition de votre capital.
         </p>
       </div>
 
@@ -60,7 +60,7 @@ export const MemberTurn: React.FC = () => {
           <Crown className="w-8 h-8 text-[#F8D64E] animate-bounce mb-1" />
           <p className="text-xs font-bold uppercase tracking-widest text-purple-200">Votre Tour</p>
           <p className="text-4xl font-black text-[#F8D64E]">N° 6</p>
-          <p className="text-[11px] font-semibold text-purple-100 mt-1">Garantie Tontines Coffres</p>
+          <p className="text-[11px] font-semibold text-purple-100 mt-1">Garantie Tontines Code Violet</p>
         </motion.div>
 
         {/* Countdown Box */}

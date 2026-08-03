@@ -20,11 +20,12 @@ export const EbookLibrary: React.FC = () => {
 
       <div className="p-6 sm:p-8 rounded-3xl bg-white border border-gray-100 shadow-md flex flex-col md:flex-row items-center gap-8">
         {/* Book Cover */}
-        <div className="relative w-48 h-64 rounded-2xl overflow-hidden shadow-xl border-2 border-[#F8D64E] shrink-0">
+        <div className="relative w-52 sm:w-60 h-72 sm:h-80 rounded-2xl overflow-hidden shadow-xl border-2 border-[#F8D64E] bg-[#120B2E] shrink-0 flex items-center justify-center p-1">
           <img
             src={mainEbook.coverUrl}
             alt={mainEbook.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain rounded-xl"
+            referrerPolicy="no-referrer"
           />
           {!hasAccess && (
             <div className="absolute inset-0 bg-black/60 backdrop-blur-xs flex flex-col items-center justify-center text-white p-4 text-center">

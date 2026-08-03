@@ -71,7 +71,7 @@ export const TontineDetail: React.FC<TontineDetailProps> = ({ tontineId, onBack,
 
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
             <div className="text-right hidden sm:block">
-              <p className="text-[10px] text-gray-400 font-bold uppercase">Montant du coffre</p>
+              <p className="text-[10px] text-gray-400 font-bold uppercase">Montant de la cagnotte</p>
               <p className="text-2xl font-black text-[#8F5DFF]">{tontine.totalPayoutAmount.toFixed(2)} €</p>
             </div>
             <button

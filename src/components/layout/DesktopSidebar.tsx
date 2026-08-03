@@ -22,7 +22,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ onOpenSearch, on
     { id: 'paiements', label: 'Paiements & Liens', icon: CreditCard },
     { id: 'calendrier', label: 'Calendrier', icon: Calendar },
     { id: 'ambition', label: 'Ambition & Ebook', icon: Sparkles, badge: 'Ebook & VIP' },
-    { id: 'documents', label: 'Coffre Documentaire', icon: FolderCheck },
+    { id: 'documents', label: 'Espace Documentaire', icon: FolderCheck },
     { id: 'support', label: 'Support Client', icon: LifeBuoy },
     { id: 'parrainage', label: 'Parrainage & Bonus', icon: Gift },
     { id: 'profil', label: 'Mon Profil & Paramètres', icon: UserIcon },
@@ -106,6 +106,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ onOpenSearch, on
                 src={currentUser.avatarUrl}
                 alt={currentUser.firstName}
                 className="w-9 h-9 rounded-full object-cover border-2 border-[#F8D64E]"
+                referrerPolicy="no-referrer"
               />
               <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-white" />
             </div>

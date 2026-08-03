@@ -10,7 +10,7 @@ export const ReferralAndRewards: React.FC = () => {
   const [spinning, setSpinning] = useState(false);
   const [wheelReward, setWheelReward] = useState<string | null>(null);
 
-  const referralUrl = `https://tontines-coffres.com/r/${currentUser.referralCode.toLowerCase()}`;
+  const referralUrl = `https://codeviolet.com/r/${currentUser.referralCode.toLowerCase()}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralUrl);

@@ -54,6 +54,7 @@ export const MemberProfile: React.FC = () => {
             src={avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}
             alt={firstName}
             className="w-16 h-16 rounded-2xl object-cover border-2 border-[#F8D64E]"
+            referrerPolicy="no-referrer"
           />
           <div className="space-y-1">
             <h3 className="font-extrabold text-gray-900 text-lg">{firstName} {lastName}</h3>
@@ -187,7 +188,7 @@ export const MemberProfile: React.FC = () => {
             <span>Enregistrer mes modifications</span>
           </button>
 
-          <p className="text-[11px] font-bold text-gray-400">Application TONTINES COFFRES v2.4.0</p>
+          <p className="text-[11px] font-bold text-gray-400">Application TONTINES CODE VIOLET v2.4.0</p>
         </div>
       </form>
     </div>

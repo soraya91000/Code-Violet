@@ -96,6 +96,7 @@ export const MemberChat: React.FC = () => {
                       src={msg.senderAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'} 
                       alt=""
                       className="w-8 h-8 rounded-full object-cover border border-purple-200 shrink-0" 
+                      referrerPolicy="no-referrer"
                     />
                     <div className={`max-w-md space-y-1 ${isMe ? 'items-end text-right' : 'items-start'}`}>
                       <div className="flex items-center gap-2">

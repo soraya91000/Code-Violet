@@ -25,7 +25,7 @@ export const DocumentVault: React.FC = () => {
     },
     {
       id: 'doc_3',
-      title: 'Attestation de Garantie du Coffre-Fort',
+      title: 'Attestation de Garantie Sécurisée',
       type: 'Certificat de Sécurité',
       date: '15 Mai 2026',
       size: '850 Ko',
@@ -47,7 +47,7 @@ export const DocumentVault: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-gray-900">Coffre-Fort Documentaire</h1>
+          <h1 className="text-2xl font-black text-gray-900">Espace Documentaire</h1>
           <p className="text-xs text-gray-500">Stockage hautement sécurisé de vos contrats, factures, récépissés et attestations.</p>
         </div>
 

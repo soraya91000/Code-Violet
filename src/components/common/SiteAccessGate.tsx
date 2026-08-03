@@ -45,7 +45,7 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
     e.preventDefault();
     const cleanPwd = password.trim();
 
-    if (cleanPwd === 'coffre2020' || cleanPwd === '2020') {
+    if (cleanPwd === 'coffre2020' || cleanPwd === '2020' || cleanPwd === 'violet2020' || cleanPwd === 'codeviolet') {
       // Owner / Admin Access - Soraya
       setError(false);
       setSuccessMsg(true);
@@ -95,9 +95,9 @@ export const SiteAccessGate: React.FC<SiteAccessGateProps> = ({
       return;
     }
 
-    // Pattern fallback for coffre#N
-    if (cleanPwd.toLowerCase().startsWith('coffre#')) {
-      const numStr = cleanPwd.substring(7);
+    // Pattern fallback for coffre#N or violet#N
+    if (cleanPwd.toLowerCase().startsWith('coffre#') || cleanPwd.toLowerCase().startsWith('violet#')) {
+      const numStr = cleanPwd.toLowerCase().startsWith('violet#') ? cleanPwd.substring(7) : cleanPwd.substring(7);
       const num = parseInt(numStr, 10);
       if (!isNaN(num) && num >= 1) {
         const memberList = (users || []).filter(u => u.role === 'member');

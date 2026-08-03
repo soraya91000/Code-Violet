@@ -147,7 +147,7 @@ export function App() {
             <Logo size="sm" className="md:hidden" />
             <div className="hidden sm:flex flex-col">
               <span className="font-bold text-sm tracking-tight leading-none uppercase text-slate-900">
-                {currentRole === 'member' ? 'Tontines Coffres' : 'Administration Tontines'}
+                {currentRole === 'member' ? 'Tontines Code Violet' : 'Administration Tontines'}
               </span>
               <span className="text-[10px] text-[#8F5DFF] font-semibold tracking-widest uppercase opacity-80 mt-0.5">
                 {currentRole === 'member' ? 'Épargne Premium' : 'Panneau de Contrôle'}

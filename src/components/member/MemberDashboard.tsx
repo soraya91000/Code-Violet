@@ -47,6 +47,7 @@ export const MemberDashboard: React.FC<MemberDashboardProps> = ({ onPayNow, onVi
                   src={currentUser.avatarUrl}
                   alt={currentUser.firstName}
                   className="w-14 h-14 rounded-2xl object-cover border-2 border-[#F8D64E] shadow-sm"
+                  referrerPolicy="no-referrer"
                 />
                 <div>
                   <h1 className="text-3xl font-light text-slate-900 leading-tight">
@@ -150,7 +151,7 @@ export const MemberDashboard: React.FC<MemberDashboardProps> = ({ onPayNow, onVi
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-extrabold text-slate-900 text-base">Ma Progression & Épargne</h3>
-              <p className="text-xs text-slate-400">Cumul des versements au coffre-fort collectif</p>
+              <p className="text-xs text-slate-400">Cumul des versements à la cagnotte collective</p>
             </div>
             <span className="text-xs font-black text-[#8F5DFF] bg-[#F3EEFF] px-3.5 py-1.5 rounded-full border border-[#8F5DFF]/20">
               7 sur 10 validés (70%)

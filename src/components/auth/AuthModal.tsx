@@ -102,7 +102,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
                 <ShieldCheck className="w-10 h-10 text-[#F8D64E]" />
               </div>
               <p className="text-sm text-gray-700">
-                Un email de confirmation vient de vous être envoyé. Vous êtes désormais membre actif de TONTINES COFFRES.
+                Un email de confirmation vient de vous être envoyé. Vous êtes désormais membre actif de TONTINES CODE VIOLET.
               </p>
               <button
                 onClick={() => {

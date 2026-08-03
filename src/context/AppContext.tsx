@@ -147,10 +147,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-      let loadedUsers = sampleUsers;
+      const SORAYA_AVATAR = 'https://image.noelshack.com/fichiers/2026/32/1/1785708686-b64b8e7b-b894-4a99-ae32-ba7ad2428e22.jpg';
+      let loadedUsers = sampleUsers.map(u => (u.firstName === 'Soraya' || u.id.includes('soraya') ? { ...u, avatarUrl: SORAYA_AVATAR } : u));
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.users) { setUsers(parsed.users); loadedUsers = parsed.users; }
+        if (parsed.users) {
+          const updatedParsedUsers = parsed.users.map((u: any) => (u.firstName === 'Soraya' || (u.id && u.id.includes('soraya')) ? { ...u, avatarUrl: SORAYA_AVATAR } : u));
+          setUsers(updatedParsedUsers);
+          loadedUsers = updatedParsedUsers;
+        }
         if (parsed.tontines) setTontines(parsed.tontines);
         if (parsed.paymentLinks) setPaymentLinks(parsed.paymentLinks);
         if (parsed.payments) setPayments(parsed.payments);

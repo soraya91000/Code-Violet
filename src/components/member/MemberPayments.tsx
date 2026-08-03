@@ -234,7 +234,7 @@ export const MemberPayments: React.FC<MemberPaymentsProps> = ({ onOpenQR, onPayN
             </div>
 
             <div className="p-4 bg-[#FAF8FF] rounded-2xl border border-purple-100 text-xs space-y-2 font-mono">
-              <p className="font-bold text-gray-900">ORGANISME : TONTINES COFFRES SAS</p>
+              <p className="font-bold text-gray-900">ORGANISME : TONTINES CODE VIOLET SAS</p>
               <p>MEMBRE : {selectedReceipt.userName}</p>
               <p>TONTINE : {selectedReceipt.tontineName}</p>
               <p>MONTANT VALIDÉ : <span className="text-[#8F5DFF] font-black">{selectedReceipt.amount.toFixed(2)} EUR</span></p>

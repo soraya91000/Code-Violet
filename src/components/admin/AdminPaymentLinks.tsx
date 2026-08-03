@@ -153,7 +153,7 @@ export const AdminPaymentLinks: React.FC = () => {
                 <input
                   type="text"
                   required
-                  placeholder="https://revolut.me/tontinescoffres"
+                  placeholder="https://revolut.me/tontinescodeviolet"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   className="w-full px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 outline-hidden"

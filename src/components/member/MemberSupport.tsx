@@ -54,7 +54,7 @@ export const MemberSupport: React.FC = () => {
           </div>
           <div>
             <p className="text-[10px] text-gray-400 font-bold uppercase">Email Direct</p>
-            <p className="font-extrabold text-gray-900 text-sm">support@tontines-coffres.com</p>
+            <p className="font-extrabold text-gray-900 text-sm">support@codeviolet.com</p>
             <p className="text-[10px] text-gray-500">Réponse sous 2 heures</p>
           </div>
         </div>

@@ -188,7 +188,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `tontines_coffres_admin_report_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `tontines_admin_report_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -298,7 +298,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
             Tableau de Bord <span className="font-extrabold text-[#F8D64E]">Supervisant & Analytique</span>
           </h1>
           <p className="text-xs sm:text-sm text-purple-100 max-w-2xl font-medium leading-relaxed">
-            Vue consolidée à 360° : statistiques clés, performances financières, flux de trésorerie, suivi des tontines et santé globale de la communauté <strong className="text-white">TONTINES COFFRES</strong>.
+            Vue consolidée à 360° : statistiques clés, performances financières, flux de trésorerie, suivi des tontines et santé globale de la communauté <strong className="text-white">TONTINES CODE VIOLET</strong>.
           </p>
         </div>
 
@@ -355,7 +355,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
                 <TrendingUp className="w-3 h-3" /> +14.2%
               </span>
             </div>
-            <p className="text-[10px] text-slate-400 font-medium mt-1">Communauté active TONTINES COFFRES</p>
+            <p className="text-[10px] text-slate-400 font-medium mt-1">Communauté active TONTINES CODE VIOLET</p>
           </div>
 
           {/* KPI 2: Membres Actifs */}
@@ -457,7 +457,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
                 {latePaymentsCount} relances
               </span>
             </div>
-            <p className="text-[10px] text-slate-400 font-medium mt-1">Garantie coffre-fort activée</p>
+            <p className="text-[10px] text-slate-400 font-medium mt-1">Garantie de sécurité activée</p>
           </div>
 
           {/* KPI 8: Montant Total Déclaré Payé */}

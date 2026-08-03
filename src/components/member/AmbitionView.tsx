@@ -20,7 +20,7 @@ export const AmbitionView: React.FC = () => {
     id: 'ebk_001',
     title: 'Guide Ultime de l\'Épargne Rotative & Création de Patrimoine',
     author: 'Soraya Ahamada',
-    coverUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80',
+    coverUrl: 'https://image.noelshack.com/fichiers/2026/32/1/1785708347-e8909f30-5565-417b-a872-ad5bb85375db.jpg',
     pagesCount: 124,
     description: 'Apprenez à structurer vos finances personnelles, à maximiser l\'impact de votre tontine et à investir sereinement dans des projets rentables.',
     viewsCount: 142,
@@ -146,7 +146,7 @@ export const AmbitionView: React.FC = () => {
       initialCapital: '200 € à 400 €',
       potentialMargin: '70% à 80%',
       timeToMarket: '5 jours',
-      description: 'Création d\'un univers olfactif personnalisé (Grasse) distribué en coffrets cadeaux et sur les réseaux sociaux.'
+      description: 'Création d\'un univers olfactif personnalisé (Grasse) distribué en packs cadeaux et sur les réseaux sociaux.'
     },
     {
       id: 'idea_03',
@@ -222,11 +222,12 @@ export const AmbitionView: React.FC = () => {
         <div className="space-y-6">
           <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-100 shadow-md flex flex-col md:flex-row items-center gap-8">
             {/* Book Cover */}
-            <div className="relative w-48 h-64 rounded-2xl overflow-hidden shadow-2xl border-2 border-[#F8D64E] shrink-0">
+            <div className="relative w-52 sm:w-60 h-72 sm:h-80 rounded-2xl overflow-hidden shadow-2xl border-2 border-[#F8D64E] bg-[#120B2E] shrink-0 flex items-center justify-center p-1">
               <img
                 src={mainEbook.coverUrl}
                 alt={mainEbook.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain rounded-xl"
+                referrerPolicy="no-referrer"
               />
               {!hasEbookAccess && (
                 <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-xs flex flex-col items-center justify-center text-white p-4 text-center">
@@ -457,7 +458,15 @@ export const AmbitionView: React.FC = () => {
       {/* TAB 5: ACCOMPAGNEMENT VIP */}
       {activeSubTab === 'accompagnement' && (
         <div className="p-8 rounded-3xl bg-white border border-purple-100 shadow-lg space-y-6 max-w-3xl mx-auto">
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-3">
+            <div className="flex justify-center">
+              <img
+                src="https://image.noelshack.com/fichiers/2026/32/1/1785708686-b64b8e7b-b894-4a99-ae32-ba7ad2428e22.jpg"
+                alt="Soraya Ahamada"
+                className="w-20 h-20 rounded-full object-cover border-2 border-[#8F5DFF] shadow-md mx-auto"
+                referrerPolicy="no-referrer"
+              />
+            </div>
             <span className="px-3 py-1 rounded-full bg-[#F3EEFF] text-[#8F5DFF] text-xs font-black uppercase">
               Mentorat & Suivi Personnalisé
             </span>

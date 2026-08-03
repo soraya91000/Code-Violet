@@ -40,8 +40,8 @@ export const MyTontines: React.FC<MyTontinesProps> = ({ onSelectTontine }) => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-gray-900">Mes Tontines & Coffres</h1>
-          <p className="text-xs text-gray-500">Retrouvez toutes les tontines auxquelles vous participez et découvrez les nouveaux coffres.</p>
+          <h1 className="text-2xl font-black text-gray-900">Mes Tontines</h1>
+          <p className="text-xs text-gray-500">Retrouvez toutes les tontines auxquelles vous participez et découvrez les nouvelles offres.</p>
         </div>
 
         {/* Filter Pills */}
@@ -172,7 +172,7 @@ export const MyTontines: React.FC<MyTontinesProps> = ({ onSelectTontine }) => {
                   onClick={() => onSelectTontine(tontine.id)}
                   className="w-full py-3 px-4 bg-[#8F5DFF] hover:bg-[#7b46ff] text-white font-extrabold text-xs rounded-2xl shadow-md shadow-[#8F5DFF]/20 flex items-center justify-center gap-2 transition-transform active:scale-98"
                 >
-                  <span>Consulter le coffre</span>
+                  <span>Consulter la tontine</span>
                   <ArrowRight className="w-4 h-4 text-[#F8D64E]" />
                 </button>
 
